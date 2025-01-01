@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            background: url('/images/background.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .counter {
+            position: absolute;
+            top: 15%;
+            right: 10%;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .card {
+            width: 150px;
+            height: 200px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">가챠 카운터</h1>
+    <div class="counter">
+        캐릭: --뽑<br>
+        광추: --뽑
+    </div>
+    <div class="card-container">
+        <div class="card">
+            <img src="/images/ticket.png" alt="기대값 계산">
+            <p>기대값 계산</p>
+        </div>
+        <div class="card">
+            <img src="/images/good.png" alt="광산 모음">
+            <p>광산 모음</p>
+        </div>
+        <div class="card">
+            <img src="/images/dice.png" alt="가챠 시뮬레이터">
+            <p>가챠 시뮬레이터</p>
+        </div>
+        <div class="card">
+            <img src="/images/option.png" alt="개수 설정">
+            <p>개수 설정</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
