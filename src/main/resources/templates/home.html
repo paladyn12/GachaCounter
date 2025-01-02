@@ -21,66 +21,64 @@
             position: relative;
         }
 
-        .title {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            color: black;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
         .counter {
             position: absolute;
-            top: 15%;
-            right: 10%;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
-            padding: 10px;
+            padding: 8px 15px;
             border-radius: 5px;
+            font-size: 0.9rem;
         }
 
         .card-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             position: absolute;
-            top: 50%;
+            top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .card {
-            width: 150px;
-            height: 200px;
+            width: 160px;
+            height: 120px;
             background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .card img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 12px;
         }
 
         .card p {
             text-align: center;
             font-weight: bold;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1 class="title">가챠 카운터</h1>
     <div class="counter">
-        캐릭: --뽑<br>
-        광추: --뽑
+        <span th:if="${isLoggedIn}">
+            캐릭 : <span th:text="${character}"></span><br>
+            광추 : <span th:text="${lightCone}"></span>
+        </span>
+        <span th:if="${!isLoggedIn}" onclick="redirectToGoogle()">
+            로그인 필요
+        </span>
     </div>
+
     <div class="card-container">
         <div class="card">
             <img src="/images/ticket.png" alt="기대값 계산">
@@ -97,8 +95,21 @@
         <div class="card">
             <img src="/images/option.png" alt="개수 설정">
             <p>개수 설정</p>
+            <span th:if="${isLoggedIn}">
+                로그인 함
+            </span>
+            <span th:if="${!isLoggedIn}" onclick="redirectToGoogle()">
+                로그인 필요
+            </span>
         </div>
     </div>
 </div>
+
+<script>
+    function redirectToGoogle() {
+        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    }
+</script>
+
 </body>
 </html>
