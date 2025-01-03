@@ -20,6 +20,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return  httpSecurity
+                .csrf()
+                .and()
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(principalOauth2UserService))

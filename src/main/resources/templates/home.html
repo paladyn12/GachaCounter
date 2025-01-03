@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <head>
     <meta charset="UTF-8">
     <style>
@@ -51,7 +53,7 @@
             flex-direction: column;
             align-items: center;
             padding: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .card img {
@@ -65,14 +67,24 @@
             font-weight: bold;
             font-size: 0.9rem;
         }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="counter">
         <span th:if="${isLoggedIn}">
-            캐릭 : <span th:text="${character}"></span><br>
-            광추 : <span th:text="${lightCone}"></span>
+            캐릭 : <span th:text="${character}">캐릭터 개수</span><br>
+            광추 : <span th:text="${lightCone}">광추 개수</span>
         </span>
         <span th:if="${!isLoggedIn}" onclick="redirectToGoogle()">
             로그인 필요
@@ -81,35 +93,121 @@
 
     <div class="card-container">
         <div class="card">
-            <img src="/images/ticket.png" alt="기대값 계산">
+            <img th:src="@{/images/ticket.png}" alt="기대값 계산">
             <p>기대값 계산</p>
         </div>
         <div class="card">
-            <img src="/images/good.png" alt="광산 모음">
+            <img th:src="@{/images/good.png}" alt="광산 모음">
             <p>광산 모음</p>
         </div>
         <div class="card">
-            <img src="/images/dice.png" alt="가챠 시뮬레이터">
+            <img th:src="@{/images/dice.png}" alt="가챠 시뮬레이터">
             <p>가챠 시뮬레이터</p>
         </div>
-        <div class="card">
-            <img src="/images/option.png" alt="개수 설정">
-            <p>개수 설정</p>
-            <span th:if="${isLoggedIn}">
-                로그인 함
-            </span>
-            <span th:if="${!isLoggedIn}" onclick="redirectToGoogle()">
-                로그인 필요
-            </span>
-        </div>
+        <span th:if="${isLoggedIn}">
+            <div class="card" onclick="showPopup()">
+                <img th:src="@{/images/option.png}" alt="개수 설정">
+                <p>개수 설정</p>
+            </div>
+        </span>
+        <span th:if="${!isLoggedIn}">
+            <div class="card" onclick="redirectToGoogle()">
+                <img th:src="@{/images/login.png}" alt="로그인">
+                <p>로그인</p>
+            </div>
+        </span>
     </div>
 </div>
 
+<footer>
+    footer
+</footer>
+
 <script>
     function redirectToGoogle() {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+        window.location.href = "[[@{/oauth2/authorization/google}]]";
+    }
+
+    function showPopup() {
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = '#fff';
+        popup.style.padding = '20px';
+        popup.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        popup.style.borderRadius = '8px';
+        popup.innerHTML = `
+            <form id="popupForm" onsubmit="submitPopup(event)">
+                <p>캐릭터 개수:</p>
+                <input type="number" id="characterCount" required>
+                <p>광추 개수:</p>
+                <input type="number" id="lightConeCount" required>
+                <p>캐릭터 꽉참:</p>
+                <select id="characterIsFull">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <p>광추 꽉참:</p>
+                <select id="lightConeIsFull">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <br><br>
+                <button type="submit">제출</button>
+                <button type="button" onclick="closePopup()">취소</button>
+            </form>
+        `;
+
+        document.body.appendChild(popup);
+    }
+
+    function closePopup() {
+        const popup = document.querySelector('body > div:last-child');
+        if (popup) popup.remove();
+    }
+
+    function submitPopup(event) {
+        event.preventDefault();
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        const characterCount = document.getElementById('characterCount').value;
+        const lightConeCount = document.getElementById('lightConeCount').value;
+        const characterIsFull = document.getElementById('characterIsFull').value;
+        const lightConeIsFull = document.getElementById('lightConeIsFull').value;
+
+        fetch('/counter/set', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken // CSRF 토큰 포함
+            },
+            body: JSON.stringify({
+                characterCount,
+                lightConeCount,
+                characterIsFull,
+                lightConeIsFull
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('설정이 성공적으로 완료되었습니다.');
+                    location.reload();
+                } else {
+                    response.text().then(text => {
+                        console.error('Server Error:', response.status, text);
+                        alert(`설정 중 오류가 발생했습니다. (상태 코드: ${response.status})`);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert('설정 중 오류가 발생했습니다.');
+            });
     }
 </script>
-
 </body>
 </html>

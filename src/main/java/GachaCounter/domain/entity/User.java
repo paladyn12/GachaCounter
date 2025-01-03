@@ -28,4 +28,11 @@ public class User {
 
     private String authority;
     private String provider;
+
+    public void updateCounter(int characterCount, int lightConeCount, boolean characterIsFull, boolean lightConeIsFull) {
+        this.characterCount = characterCount;
+        this.lightConeCount = lightConeCount;
+        this.characterIsFull = characterIsFull;
+        this.lightConeIsFull = lightConeIsFull;
+    }
 }
