@@ -100,7 +100,7 @@
             <img th:src="@{/images/good.png}" alt="광산 모음">
             <p>광산 모음</p>
         </div>
-        <div class="card">
+        <div class="card" onclick="redirectToSimulator()">
             <img th:src="@{/images/dice.png}" alt="가챠 시뮬레이터">
             <p>가챠 시뮬레이터</p>
         </div>
@@ -124,6 +124,10 @@
 </footer>
 
 <script>
+    function redirectToSimulator() {
+        window.location.href = "/simulator";
+    }
+
     function redirectToGoogle() {
         window.location.href = "[[@{/oauth2/authorization/google}]]";
     }
@@ -183,18 +187,21 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                [csrfHeader]: csrfToken // CSRF 토큰 포함
+                [csrfHeader]: csrfToken
             },
             body: JSON.stringify({
                 characterCount,
                 lightConeCount,
                 characterIsFull,
                 lightConeIsFull
-            })
+            }),
+            redirect: 'follow'  // redirect 응답을 따라가도록 설정
         })
             .then(response => {
-                if (response.ok) {
-                    alert('설정이 성공적으로 완료되었습니다.');
+                if (response.redirected) {
+                    // redirect된 URL로 이동
+                    window.location.href = response.url;
+                } else if (response.ok) {
                     location.reload();
                 } else {
                     response.text().then(text => {

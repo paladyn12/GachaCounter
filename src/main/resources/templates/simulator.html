@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>캐릭터/광추 선택</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .background {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: url('/images/gacha.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .container {
+            width: 60%;
+            height: 100vh;
+            position: relative;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+
+        .header-buttons {
+            text-align: right;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            padding-top: 50px;
+        }
+
+        .header-button {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .counter-display-container {
+            text-align: right;
+        }
+        .counter-display {
+            display: inline-block;
+            padding: 5px;
+            background-color: white;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }
+
+        .selection-area {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .scroll-container {
+            width: 150px;
+            height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            display: none;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            width: calc(100% - 210px);
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+
+        .toggle-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 20px;
+            min-width: 60px; /* 버튼의 최소 너비를 설정 */
+            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+        }
+
+        .popup {
+            display: none; /* 초기에는 숨겨짐 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .toggle-button img, .popup img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="background">
+    <div class="container">
+        <!-- 상단 버튼 영역 -->
+        <div class="header-buttons">
+            <button class="header-button">내 정보 불러오기</button>
+            <button class="header-button">초기화</button>
+        </div>
+
+        <!-- 카운터 표시 -->
+        <div class="counter-display-container">
+            <div class="counter-display">
+                캐릭터 : 0 (전장 X)<br>
+                광추 : 0 (전장 X)
+            </div>
+        </div>
+
+        <!-- 캐릭터 선택 영역 -->
+        <div class="selection-area">
+            <button class="toggle-button" onclick="toggleImage1()">
+                <img id="character-image1" src="/images/character/character_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
+            </button>
+
+            <!-- 팝업 -->
+            <div class="popup" id="popup1">
+                <div class="popup-content">
+                    <img src="/images/character/theHerta_icon.png" onclick="selectCharacter1('/images/character/theHerta_icon.png')" alt="1">
+                    <img src="/images/character/lingsha_icon.png" onclick="selectCharacter1('/images/character/lingsha_icon.png')" alt="2">
+                </div>
+            </div>
+
+            <div id="character-scroll1" class="scroll-container">
+                <div>항목 1</div>
+                <div>항목 2</div>
+                <div>항목 3</div>
+                <div>항목 4</div>
+                <div>항목 5</div>
+                <div>항목 6</div>
+                <div>항목 7</div>
+                <div>항목 8</div>
+                <div>항목 9</div>
+                <div>항목 10</div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+            </div>
+            <button class="action-button">10연차</button>
+        </div>
+
+        <!-- 캐릭터 선택 영역 -->
+        <div class="selection-area">
+            <button class="toggle-button" onclick="toggleImage2()">
+                <img id="character-image2" src="/images/lightCone/lightCone_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
+            </button>
+
+            <!-- 팝업 -->
+            <div class="popup" id="popup2">
+                <div class="popup-content">
+                    <img src="/images/character/theHerta_icon.png" onclick="selectCharacter2('/images/character/theHerta_icon.png')" alt="1">
+                    <img src="/images/character/lingsha_icon.png" onclick="selectCharacter2('/images/character/lingsha_icon.png')" alt="2">
+                </div>
+            </div>
+
+            <div id="character-scroll2" class="scroll-container">
+                <div>항목 1</div>
+                <div>항목 2</div>
+                <div>항목 3</div>
+                <div>항목 4</div>
+                <div>항목 5</div>
+                <div>항목 6</div>
+                <div>항목 7</div>
+                <div>항목 8</div>
+                <div>항목 9</div>
+                <div>항목 10</div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+            </div>
+            <button class="action-button">10연차</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function toggleImage1() {
+        const popup = document.getElementById('popup1');
+        // 팝업을 토글하여 보이거나 숨김
+        popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+    function toggleImage2() {
+        const popup = document.getElementById('popup2');
+        // 팝업을 토글하여 보이거나 숨김
+        popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+
+    // 캐릭터 선택 시 캐릭터 이름 및 이미지 변경
+    function selectCharacter1(selectedImage) {
+
+        // 선택된 이미지를 캐릭터 버튼에 반영
+        const buttonImage = document.getElementById('character-image1');
+        buttonImage.src = selectedImage;
+
+        // 팝업 닫기
+        document.getElementById('popup1').style.display = 'none';
+    }
+    function selectCharacter2(selectedImage) {
+
+        // 선택된 이미지를 캐릭터 버튼에 반영
+        const buttonImage = document.getElementById('character-image2');
+        buttonImage.src = selectedImage;
+
+        // 팝업 닫기
+        document.getElementById('popup2').style.display = 'none';
+    }
+</script>
+</body>
+</html>
