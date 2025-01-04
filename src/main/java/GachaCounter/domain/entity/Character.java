@@ -1,8 +1,9 @@
 package GachaCounter.domain.entity;
 
+import GachaCounter.domain.Element;
 import GachaCounter.domain.Path;
+import GachaCounter.domain.Special;
 import GachaCounter.domain.Star;
-import GachaCounter.domain.Type;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ public class Character {
     String name;
     Star star;
     Path path;
-    Type type;
+    Element element;
+    Special special;
     private String imagePath;
 }
