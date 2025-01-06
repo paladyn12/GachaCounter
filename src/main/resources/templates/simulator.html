@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <head>
     <meta charset="UTF-8">
     <title>캐릭터/광추 선택</title>
@@ -102,12 +104,12 @@
             padding: 10px 20px;
             cursor: pointer;
             margin-left: 20px;
-            min-width: 60px; /* 버튼의 최소 너비를 설정 */
-            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+            min-width: 60px;
+            white-space: nowrap;
         }
 
         .popup {
-            display: none; /* 초기에는 숨겨짐 */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -143,33 +145,80 @@
     <div class="container">
         <!-- 상단 버튼 영역 -->
         <div class="header-buttons">
-            <button class="header-button">내 정보 불러오기</button>
-            <button class="header-button">초기화</button>
+            <span th:if="${isLoggedIn}">
+                <button class="header-button" onclick="loadUserInfo()">내 정보 불러오기</button>
+            </span>
+            <button class="header-button" onclick="clearCount()">초기화</button>
         </div>
 
         <!-- 카운터 표시 -->
         <div class="counter-display-container">
-            <div class="counter-display">
-                캐릭터 : 0 (전장 X)<br>
-                광추 : 0 (전장 X)
+            <div class="counter-display" id="counter-display">
+                캐릭터 : <span id="characterCount">0</span> (천장 <span id="characterIsFull">X</span>)<br>
+                광추 : <span id="lightConeCount">0</span> (천장 <span id="lightConeIsFull">X</span>)
             </div>
         </div>
 
         <!-- 캐릭터 선택 영역 -->
         <div class="selection-area">
-            <button class="toggle-button" onclick="toggleImage1()">
-                <img id="character-image1" src="/images/character/character_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
+            <button class="toggle-button" onclick="toggleCharacterImage()">
+                <img id="character-image" src="/images/character/character_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
             </button>
 
             <!-- 팝업 -->
-            <div class="popup" id="popup1">
+            <div class="popup" id="characterPopup">
                 <div class="popup-content">
-                    <img src="/images/character/theHerta_icon.png" onclick="selectCharacter1('/images/character/theHerta_icon.png')" alt="1">
-                    <img src="/images/character/lingsha_icon.png" onclick="selectCharacter1('/images/character/lingsha_icon.png')" alt="2">
+                    <div th:each="character : ${pickupCharacters}">
+                        <img th:src="${character.imagePath}" th:alt="${character.name}"
+                             th:onclick="selectCharacter([[${character.imagePath}]])">
+                    </div>
                 </div>
             </div>
 
-            <div id="character-scroll1" class="scroll-container">
+            <div id="character-scroll" class="scroll-container">
+                <div>항목 1</div>
+                <div>항목 2</div>
+                <div>항목 3</div>
+                <div>항목 4</div>
+                <div>항목 5</div>
+                <div>항목 6</div>
+                <div>항목 7</div>
+                <div>항목 8</div>
+                <div>항목 9</div>
+                <div>항목 10</div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+                <div class="grid-item"></div>
+            </div>
+            <button class="action-button" onclick="simulateCharacter()">10연차</button>
+        </div>
+
+        <!-- 캐릭터 선택 영역 -->
+        <div class="selection-area">
+            <button class="toggle-button" onclick="toggleLightConeImage()">
+                <img id="lightCone-image" src="/images/lightCone/lightCone_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
+            </button>
+
+            <!-- 팝업 -->
+            <div class="popup" id="lightConePopup">
+                <div class="popup-content">
+                    <div th:each="lightCone : ${pickupLightCones}">
+                        <img th:src="${lightCone.imagePath}" th:alt="${lightCone.name}"
+                             th:onclick="selectLightCone([[${lightCone.imagePath}]])">
+                    </div>
+                </div>
+            </div>
+
+            <div id="lightCone-scroll" class="scroll-container">
                 <div>항목 1</div>
                 <div>항목 2</div>
                 <div>항목 3</div>
@@ -195,82 +244,94 @@
             </div>
             <button class="action-button">10연차</button>
         </div>
-
-        <!-- 캐릭터 선택 영역 -->
-        <div class="selection-area">
-            <button class="toggle-button" onclick="toggleImage2()">
-                <img id="character-image2" src="/images/lightCone/lightCone_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
-            </button>
-
-            <!-- 팝업 -->
-            <div class="popup" id="popup2">
-                <div class="popup-content">
-                    <img src="/images/character/theHerta_icon.png" onclick="selectCharacter2('/images/character/theHerta_icon.png')" alt="1">
-                    <img src="/images/character/lingsha_icon.png" onclick="selectCharacter2('/images/character/lingsha_icon.png')" alt="2">
-                </div>
-            </div>
-
-            <div id="character-scroll2" class="scroll-container">
-                <div>항목 1</div>
-                <div>항목 2</div>
-                <div>항목 3</div>
-                <div>항목 4</div>
-                <div>항목 5</div>
-                <div>항목 6</div>
-                <div>항목 7</div>
-                <div>항목 8</div>
-                <div>항목 9</div>
-                <div>항목 10</div>
-            </div>
-            <div class="grid-container">
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-            </div>
-            <button class="action-button">10연차</button>
-        </div>
-
     </div>
 </div>
 
 <script>
-    function toggleImage1() {
-        const popup = document.getElementById('popup1');
-        // 팝업을 토글하여 보이거나 숨김
+    function toggleCharacterImage() {
+        const popup = document.getElementById('characterPopup');
         popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
-    function toggleImage2() {
-        const popup = document.getElementById('popup2');
-        // 팝업을 토글하여 보이거나 숨김
+    function toggleLightConeImage() {
+        const popup = document.getElementById('lightConePopup');
         popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
 
-
-    // 캐릭터 선택 시 캐릭터 이름 및 이미지 변경
-    function selectCharacter1(selectedImage) {
-
-        // 선택된 이미지를 캐릭터 버튼에 반영
-        const buttonImage = document.getElementById('character-image1');
+    function selectCharacter(selectedImage) {
+        const buttonImage = document.getElementById('character-image');
         buttonImage.src = selectedImage;
 
-        // 팝업 닫기
-        document.getElementById('popup1').style.display = 'none';
+        document.getElementById('characterPopup').style.display = 'none';
     }
-    function selectCharacter2(selectedImage) {
-
-        // 선택된 이미지를 캐릭터 버튼에 반영
-        const buttonImage = document.getElementById('character-image2');
+    function selectLightCone(selectedImage) {
+        const buttonImage = document.getElementById('lightCone-image');
         buttonImage.src = selectedImage;
 
-        // 팝업 닫기
-        document.getElementById('popup2').style.display = 'none';
+        document.getElementById('lightConePopup').style.display = 'none';
+    }
+
+    function loadUserInfo() {
+        // AJAX 요청
+        fetch('/simulator/userinfo')  // 서버에 요청 보낼 URL
+            .then(response => response.json())
+            .then(data => {
+                // 데이터를 받아온 후 DOM 업데이트
+                document.getElementById('characterCount').textContent = data.characterCount;
+                document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
+                document.getElementById('lightConeCount').textContent = data.lightConeCount;
+                document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+            })
+            .catch(error => console.error('Error loading user info:', error));
+    }
+    function clearCount() {
+        fetch('/simulator/clearCount')  // 서버에 요청 보낼 URL
+            .then(response => response.json())
+            .then(data => {
+                // 데이터를 받아온 후 DOM 업데이트
+                document.getElementById('characterCount').textContent = data.characterCount;
+                document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
+                document.getElementById('lightConeCount').textContent = data.lightConeCount;
+                document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+            })
+            .catch(error => console.error('Error loading user info:', error));
+    }
+
+    function simulateCharacter() {
+        // 현재 화면 값 가져오기
+        const characterCount = parseInt(document.getElementById("characterCount").textContent);
+        const characterIsFull = document.getElementById("characterIsFull").textContent === "O";
+        const characterImageSrc = document.getElementById("character-image").src;
+        const imageName = characterImageSrc.substring(characterImageSrc.lastIndexOf('/') + 1);
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        // 요청 데이터 생성
+        const requestData = {
+            characterCount: characterCount,
+            characterIsFull: characterIsFull,
+            imageName: imageName
+        };
+
+        // AJAX 요청 보내기
+        fetch('/simulator/simulateCharacter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json()
+            .then(data => {
+                document.getElementById("characterCount").textContent = data.characterCount;
+                document.getElementById("characterIsFull").textContent = data.characterIsFull ? "O" : "X";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('시뮬레이션 중 오류가 발생했습니다.');
+            }))
     }
 </script>
 </body>

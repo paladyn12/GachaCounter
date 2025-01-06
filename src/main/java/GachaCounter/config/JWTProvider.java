@@ -17,7 +17,6 @@ public class JWTProvider {
 
     @Value("${jwt.secret}")
     private String secretKey;
-    private final long tokenValidityInMilliseconds = 1000L * 60 * 60;
 
     // JWT 토큰 생성
     public String createToken(User user) {
