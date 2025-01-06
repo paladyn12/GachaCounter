@@ -1,5 +1,5 @@
 package GachaCounter.domain;
 
 public enum Special {
-    SPECIAL, NONE
+    SPECIAL, ALWAYS
 }

@@ -1,24 +1,26 @@
 package GachaCounter.domain.entity;
 
-import GachaCounter.domain.Element;
 import GachaCounter.domain.Path;
 import GachaCounter.domain.Special;
 import GachaCounter.domain.Star;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Table(name = "lightcones")
+@Getter
 public class LightCone {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     String name;
+    @Enumerated(EnumType.STRING)
     Star star;
+    @Enumerated(EnumType.STRING)
     Path path;
-    Element element;
+    @Enumerated(EnumType.STRING)
     Special special;
+    @Column(name = "image_path")
     private String imagePath;
 }
