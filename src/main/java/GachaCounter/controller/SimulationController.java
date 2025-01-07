@@ -7,8 +7,7 @@ import GachaCounter.domain.entity.LightCone;
 import GachaCounter.domain.entity.Pickup;
 import GachaCounter.domain.entity.User;
 import GachaCounter.repository.PickupRepository;
-import GachaCounter.service.CharacterService;
-import GachaCounter.service.LightConeService;
+import GachaCounter.service.GachaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +27,8 @@ import java.util.*;
 @Slf4j
 public class SimulationController {
 
-    private final CharacterService characterService;
-    private final LightConeService lightConeService;
     private final PickupRepository pickupRepository;
-
+    private final GachaService gachaService;
 
     @GetMapping
     public String simulatorPage(Model model) {
@@ -107,17 +104,25 @@ public class SimulationController {
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
         name = name.replace(".webp","");
         log.info("name={}", name);
-        int count = request.getCharacterCount();
-        boolean isFull = request.isCharacterIsFull();
-        // 응답 데이터 생성
-        /*
-        Service 단에서 count, isFull, 픽업캐 이름을 받음
-        10연차만 가정
+        request.setImageName(name);
 
-        각 파라미터를 고려해 10개의 output을 CharacterRepository에서 생성
-        생성 후 count, isFull 값 조정
-        (10연차가 아닌 가챠만 구현하여 * 10)?
+        /*
+        입력 : 카운트, 천장(O/X) (CharacterSimulateRequest)
+        연산 : 10번의 가챠 진행
+         - 각 가챠에서 카운트에 의해 나오는 등급이 다름
+         - 가챠 진행 시 카운트, 천장 값 조정
+        출력 : List<Character> 10개, CharacterSimulateRequest의 값은 연산에서 조정됨
          */
+        Character[] characters = gachaService.simulateCharacter(request);
+        for (Character character : characters) {
+            if (character != null)
+                log.info("나온 캐릭터={}", character.getName());
+            else
+                log.info("3성");
+        }
+        log.info("{}",request.getCharacterCount());
+
+
         Map<String, Object> response = new HashMap<>();
         response.put("characterCount", request.getCharacterCount());
         response.put("characterIsFull", request.isCharacterIsFull());
