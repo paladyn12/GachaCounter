@@ -26,4 +26,5 @@ public class Character {
     Special special;
     @Column(name = "image_path")
     private String imagePath;
+
 }

@@ -1,5 +1,5 @@
 package GachaCounter.domain;
 
 public enum Star {
-    Five, Four, Three
+    FIVE, FOUR, THREE
 }
