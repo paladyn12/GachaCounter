@@ -2,10 +2,12 @@ package GachaCounter.controller;
 
 import GachaCounter.config.PrincipalDetails;
 import GachaCounter.domain.dto.CharacterSimulateRequest;
+import GachaCounter.domain.dto.SimulateResponse;
 import GachaCounter.domain.entity.Character;
 import GachaCounter.domain.entity.LightCone;
 import GachaCounter.domain.entity.Pickup;
 import GachaCounter.domain.entity.User;
+import GachaCounter.repository.LightConeRepository;
 import GachaCounter.repository.PickupRepository;
 import GachaCounter.service.GachaService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import java.util.*;
 public class SimulationController {
 
     private final PickupRepository pickupRepository;
+    private final LightConeRepository lightConeRepository;
     private final GachaService gachaService;
 
     @GetMapping
@@ -102,30 +105,26 @@ public class SimulationController {
         log.info("Received request: {}", request); // 로그 추가
 
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
-        name = name.replace(".webp","");
+        name = name.replace(".webp", "");
         log.info("name={}", name);
         request.setImageName(name);
 
-        /*
-        입력 : 카운트, 천장(O/X) (CharacterSimulateRequest)
-        연산 : 10번의 가챠 진행
-         - 각 가챠에서 카운트에 의해 나오는 등급이 다름
-         - 가챠 진행 시 카운트, 천장 값 조정
-        출력 : List<Character> 10개, CharacterSimulateRequest의 값은 연산에서 조정됨
-         */
         Character[] characters = gachaService.simulateCharacter(request);
-        for (Character character : characters) {
-            if (character != null)
-                log.info("나온 캐릭터={}", character.getName());
-            else
+        SimulateResponse[] items = new SimulateResponse[10];
+        for (int i = 0; i < 10; i++) {
+            if (characters[i] != null) {
+                log.info("나온 캐릭터={}", characters[i].getName());
+                items[i] = new SimulateResponse(characters[i]);
+            } else {
                 log.info("3성");
+                items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
+            }
         }
-        log.info("{}",request.getCharacterCount());
-
-
+        log.info("{}", request.getCharacterCount());
         Map<String, Object> response = new HashMap<>();
         response.put("characterCount", request.getCharacterCount());
         response.put("characterIsFull", request.isCharacterIsFull());
+        response.put("items", items);
 
         return ResponseEntity.ok(response);
     }

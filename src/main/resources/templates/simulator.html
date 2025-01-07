@@ -84,7 +84,12 @@
             width: calc(100% - 210px);
         }
 
-        .grid-item {
+        .grid-item-character {
+            aspect-ratio: 1;
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+        .grid-item-lightCone {
             aspect-ratio: 1;
             background-color: white;
             border: 1px solid #ddd;
@@ -188,16 +193,16 @@
                 <div>항목 10</div>
             </div>
             <div class="grid-container">
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
+                <div class="grid-item-character"></div>
             </div>
             <button class="action-button" onclick="simulateCharacter()">10연차</button>
         </div>
@@ -231,16 +236,16 @@
                 <div>항목 10</div>
             </div>
             <div class="grid-container">
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
-                <div class="grid-item"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
+                <div class="grid-item-lightCone"></div>
             </div>
             <button class="action-button">10연차</button>
         </div>
@@ -327,6 +332,33 @@
             .then(data => {
                 document.getElementById("characterCount").textContent = data.characterCount;
                 document.getElementById("characterIsFull").textContent = data.characterIsFull ? "O" : "X";
+                const items = data.items;
+                const gridItems = document.querySelectorAll('.grid-item-character');
+
+                if (items && gridItems.length === items.length) { // 데이터와 grid-item 개수 확인
+                    for (let i = 0; i < items.length; i++) {
+                        const item = items[i];
+                        const gridItem = gridItems[i];
+
+                        if (item && item.imagePath) { // imagePath가 있는지 확인
+                            // 기존 내용 비우기
+                            gridItem.innerHTML = '';
+
+                            const img = document.createElement('img');
+                            img.src = item.imagePath;
+                            img.alt = `Item ${i + 1}`; // 대체 텍스트 추가 (접근성 향상)
+                            img.style.maxWidth = '100%'; // 이미지 크기 조절
+                            img.style.maxHeight = '100%';
+                            gridItem.appendChild(img);
+                        } else {
+                            // imagePath가 없는 경우 또는 item이 null인 경우 처리
+                            gridItem.textContent = "이미지 없음"; // 또는 다른 대체 텍스트
+                            console.error(`Item ${i + 1}에 imagePath가 없습니다.`);
+                        }
+                    }
+                } else {
+                    console.error("데이터 또는 grid-item 개수가 일치하지 않습니다.");
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
