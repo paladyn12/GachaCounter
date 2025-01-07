@@ -2,6 +2,7 @@ package GachaCounter.controller;
 
 import GachaCounter.config.PrincipalDetails;
 import GachaCounter.domain.dto.CharacterSimulateRequest;
+import GachaCounter.domain.dto.LightConeSimulateRequest;
 import GachaCounter.domain.dto.SimulateResponse;
 import GachaCounter.domain.entity.Character;
 import GachaCounter.domain.entity.LightCone;
@@ -113,17 +114,49 @@ public class SimulationController {
         SimulateResponse[] items = new SimulateResponse[10];
         for (int i = 0; i < 10; i++) {
             if (characters[i] != null) {
-                log.info("나온 캐릭터={}", characters[i].getName());
                 items[i] = new SimulateResponse(characters[i]);
+                log.info("나온 캐릭터={}", items[i].getName());
             } else {
                 log.info("3성");
                 items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
+                log.info("나온 캐릭터={}", items[i].getName());
             }
         }
         log.info("{}", request.getCharacterCount());
         Map<String, Object> response = new HashMap<>();
         response.put("characterCount", request.getCharacterCount());
         response.put("characterIsFull", request.isCharacterIsFull());
+        response.put("items", items);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/simulateLightCone")
+    @ResponseBody
+    public ResponseEntity<?> simulateLightCone(@RequestBody LightConeSimulateRequest request) {
+        log.info("Received request: {}", request); // 로그 추가
+
+        String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
+        name = name.replace(".png", "");
+        log.info("name={}", name);
+        request.setImageName(name);
+
+        LightCone[] lightCones = gachaService.simulateLightCone(request);
+        SimulateResponse[] items = new SimulateResponse[10];
+        for (int i = 0; i < 10; i++) {
+            if (lightCones[i] != null) {
+                items[i] = new SimulateResponse(lightCones[i]);
+                log.info("나온 캐릭터={}", items[i].getName());
+            } else {
+                log.info("3성");
+                items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
+                log.info("나온 캐릭터={}", items[i].getName());
+            }
+        }
+        log.info("{}", request.getLightConeCount());
+        Map<String, Object> response = new HashMap<>();
+        response.put("lightConeCount", request.getLightConeCount());
+        response.put("lightConeIsFull", request.isLightConeIsFull());
         response.put("items", items);
 
         return ResponseEntity.ok(response);
