@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.background {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: url('/images/gacha.png') no-repeat center center;
+    background-size: cover;
+}
+
+.container {
+    width: 60%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+.header-buttons {
+    text-align: right;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding-top: 50px;
+}
+
+.header-button {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.counter-display-container {
+    text-align: right;
+}
+.counter-display {
+    display: inline-block;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.selection-area {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.scroll-container {
+    width: 150px;
+    height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    display: none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    width: calc(100% - 210px);
+}
+.grid-item-character {
+    transition: opacity 0.5s ease;
+    position: relative; /* position relative 추가 */
+    overflow: hidden; /* overflow hidden 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.grid-item-character img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+.grid-item-lightCone {
+    transition: opacity 0.5s ease;
+    position: relative; /* position relative 추가 */
+    overflow: hidden; /* overflow hidden 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.grid-item-lightCone img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.toggle-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    min-width: 60px;
+    white-space: nowrap;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.toggle-button img, .popup img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0;
+    padding: 0;
+}
+.effect {
+    animation: sparkle 1s infinite alternate; /* 반짝이는 애니메이션 */
+}
+.five-star-effect {
+    border: 3px solid gold; /* 노란색 테두리 */
+    box-shadow: 0 0 10px gold; /* 추가적인 그림자 효과 */
+    animation: glow-gold 2s infinite alternate; /* 빛나는 효과 */
+}
+
+.four-star-effect {
+    border: 3px solid purple; /* 보라색 테두리 */
+    box-shadow: 0 0 10px purple; /* 추가적인 그림자 효과 */
+    animation: glow-purple 2s infinite alternate; /* 빛나는 효과 */
+}
+
+.three-star-effect {
+    border: 3px solid blue; /* 파란색 테두리 */
+    box-shadow: 0 0 10px blue; /* 추가적인 그림자 효과 */
+    animation: glow-blue 2s infinite alternate; /* 빛나는 효과 */
+}
