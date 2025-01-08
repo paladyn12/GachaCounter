@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="background">
+    <!-- 네비게이션 버튼 추가 -->
+    <div class="nav-buttons">
+        <button class="nav-button" onclick="goBack()">&lt;</button>
+        <button class="nav-button" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <!-- 메뉴 팝업 -->
+    <div id="menuPopup" class="menu-popup">
+        <div class="menu-item" onclick="navigateTo('/calculator')">
+            <div class="menu-icon">
+                <img src="/images/ticket.png" alt="티켓 아이콘">
+            </div>
+            기대값 계산
+        </div>
+        <div class="menu-item menu-item-active">
+            <div class="menu-icon">
+                <img src="/images/good.png" alt="성옥 아이콘">
+            </div>
+            광산 모음
+        </div>
+        <div class="menu-item">
+            <div class="menu-icon" onclick="navigateTo('/simulator')">
+                <img src="/images/dice.png" alt="주사위 아이콘">
+            </div>
+            가챠 시뮬레이터
+        </div>
+    </div>
+</div>
+<script src="/js/myjs.js"></script>
+</body>
+</html>

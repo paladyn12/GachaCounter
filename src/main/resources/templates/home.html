@@ -1,83 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/home.css">
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <head>
     <meta charset="UTF-8">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: sans-serif;
-        }
-
-        .container {
-            width: 100%;
-            height: 100vh;
-            background: url('/images/background.png') no-repeat center center;
-            background-size: cover;
-            position: relative;
-        }
-
-        .counter {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-
-        .card-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .card {
-            width: 160px;
-            height: 120px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 12px;
-        }
-
-        .card p {
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            width: 100%;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            background-color: #f1f1f1;
-            padding: 10px 0;
-            font-size: 0.9rem;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -92,11 +19,11 @@
     </div>
 
     <div class="card-container">
-        <div class="card">
+        <div class="card" onclick="redirectToCalculator()">
             <img th:src="@{/images/ticket.png}" alt="기대값 계산">
             <p>기대값 계산</p>
         </div>
-        <div class="card">
+        <div class="card" onclick="redirectToChecklist()">
             <img th:src="@{/images/good.png}" alt="광산 모음">
             <p>광산 모음</p>
         </div>
@@ -123,98 +50,6 @@
     footer
 </footer>
 
-<script>
-    function redirectToSimulator() {
-        window.location.href = "/simulator";
-    }
-
-    function redirectToGoogle() {
-        window.location.href = "[[@{/oauth2/authorization/google}]]";
-    }
-
-    function showPopup() {
-        const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = '#fff';
-        popup.style.padding = '20px';
-        popup.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-        popup.style.borderRadius = '8px';
-        popup.innerHTML = `
-            <form id="popupForm" onsubmit="submitPopup(event)">
-                <p>캐릭터 개수:</p>
-                <input type="number" id="characterCount" required>
-                <p>광추 개수:</p>
-                <input type="number" id="lightConeCount" required>
-                <p>캐릭터 꽉참:</p>
-                <select id="characterIsFull">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-                <p>광추 꽉참:</p>
-                <select id="lightConeIsFull">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-                <br><br>
-                <button type="submit">제출</button>
-                <button type="button" onclick="closePopup()">취소</button>
-            </form>
-        `;
-
-        document.body.appendChild(popup);
-    }
-
-    function closePopup() {
-        const popup = document.querySelector('body > div:last-child');
-        if (popup) popup.remove();
-    }
-
-    function submitPopup(event) {
-        event.preventDefault();
-
-        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-
-        const characterCount = document.getElementById('characterCount').value;
-        const lightConeCount = document.getElementById('lightConeCount').value;
-        const characterIsFull = document.getElementById('characterIsFull').value;
-        const lightConeIsFull = document.getElementById('lightConeIsFull').value;
-
-        fetch('/counter/set', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                [csrfHeader]: csrfToken
-            },
-            body: JSON.stringify({
-                characterCount,
-                lightConeCount,
-                characterIsFull,
-                lightConeIsFull
-            }),
-            redirect: 'follow'  // redirect 응답을 따라가도록 설정
-        })
-            .then(response => {
-                if (response.redirected) {
-                    // redirect된 URL로 이동
-                    window.location.href = response.url;
-                } else if (response.ok) {
-                    location.reload();
-                } else {
-                    response.text().then(text => {
-                        console.error('Server Error:', response.status, text);
-                        alert(`설정 중 오류가 발생했습니다. (상태 코드: ${response.status})`);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Fetch Error:', error);
-                alert('설정 중 오류가 발생했습니다.');
-            });
-    }
-</script>
+<script src="/js/home.js"></script>
 </body>
 </html>

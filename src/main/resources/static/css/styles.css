@@ -8,7 +8,21 @@ body {
     font-family: sans-serif;
 }
 
-.background {
+.background-simulator {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: url('/images/gacha.png') no-repeat center center;
+    background-size: cover;
+}
+.background-checklist {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: url('/images/gacha.png') no-repeat center center;
+    background-size: cover;
+}
+.background-calculator {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -167,4 +181,111 @@ body {
     border: 3px solid blue; /* 파란색 테두리 */
     box-shadow: 0 0 10px blue; /* 추가적인 그림자 효과 */
     animation: glow-blue 2s infinite alternate; /* 빛나는 효과 */
+}
+.help-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.help-popup-content {
+    margin-bottom: 0;
+}
+
+.close-help {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+}
+.nav-buttons {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.nav-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* 메뉴 팝업 스타일 */
+.menu-popup {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+.menu-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item:hover:not(.menu-item-active) {
+    background-color: #f0f0f0;
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 현재 페이지 메뉴 스타일 */
+.menu-item-active {
+    background-color: #e0e0e0;
+    cursor: default;
+    color: #666;
+}
+
+.menu-item-active .menu-icon img {
+    opacity: 0.6;
 }

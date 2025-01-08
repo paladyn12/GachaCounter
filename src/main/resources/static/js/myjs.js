@@ -47,10 +47,14 @@ function clearCount() {
 }
 
 function simulateCharacter() {
+    const characterImageSrc = document.getElementById("character-image").src;
+    if (characterImageSrc.endsWith('/images/character/character_thumbnail.png')) {
+        alert('캐릭터를 선택해주세요.');
+        return;
+    }
     // 현재 화면 값 가져오기
     const characterCount = parseInt(document.getElementById("characterCount").textContent);
     const characterIsFull = document.getElementById("characterIsFull").textContent === "O";
-    const characterImageSrc = document.getElementById("character-image").src;
     const imageName = characterImageSrc.substring(characterImageSrc.lastIndexOf('/') + 1);
 
     const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
@@ -133,10 +137,14 @@ function simulateCharacter() {
 }
 
 function simulateLightCone() {
+    const lightConeImageSrc = document.getElementById("lightCone-image").src;
+    if (lightConeImageSrc.endsWith('/images/lightCone/lightCone_thumbnail.png')) {
+        alert('광추를 선택해주세요.');
+        return;
+    }
     // 현재 화면 값 가져오기
     const lightConeCount = parseInt(document.getElementById("lightConeCount").textContent);
     const lightConeIsFull = document.getElementById("lightConeIsFull").textContent === "O";
-    const lightConeImageSrc = document.getElementById("lightCone-image").src;
     const imageName = lightConeImageSrc.substring(lightConeImageSrc.lastIndexOf('/') + 1);
 
     const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
@@ -217,3 +225,48 @@ function simulateLightCone() {
                 alert('시뮬레이션 중 오류가 발생했습니다.');
             }))
 }
+function showHelp() {
+    document.getElementById('helpPopup').style.display = 'block';
+}
+
+// 도움말 팝업 닫기
+function closeHelp() {
+    document.getElementById('helpPopup').style.display = 'none';
+}
+
+// ESC 키로 팝업 닫기
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeHelp();
+    }
+});
+
+// 팝업 외부 클릭시 닫기
+window.addEventListener('click', function(event) {
+    const popup = document.getElementById('helpPopup');
+    if (event.target === popup) {
+        closeHelp();
+    }
+});
+function goBack() {
+    window.location.href = '/';
+}
+
+function toggleMenu() {
+    const menuPopup = document.getElementById('menuPopup');
+    menuPopup.style.display = menuPopup.style.display === 'block' ? 'none' : 'block';
+}
+
+function navigateTo(path) {
+    window.location.href = path;
+}
+
+// 메뉴 외부 클릭시 닫기
+document.addEventListener('click', function(event) {
+    const menuPopup = document.getElementById('menuPopup');
+    const menuButton = document.querySelector('.nav-button:nth-child(2)');
+
+    if (!menuPopup.contains(event.target) && event.target !== menuButton) {
+        menuPopup.style.display = 'none';
+    }
+});

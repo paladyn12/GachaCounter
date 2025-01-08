@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" type="text/css" href="/css/simulator.css">
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <head>
     <meta charset="UTF-8">
-    <title>캐릭터/광추 선택</title>
 </head>
 <body>
-<div class="background">
+<div class="background-simulator">
+    <!-- 네비게이션 버튼 추가 -->
+    <div class="nav-buttons">
+        <button class="nav-button" onclick="goBack()">&lt;</button>
+        <button class="nav-button" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <!-- 메뉴 팝업 -->
+    <div id="menuPopup" class="menu-popup">
+        <div class="menu-item" onclick="navigateTo('/calculator')">
+            <div class="menu-icon">
+                <img src="/images/ticket.png" alt="티켓 아이콘">
+            </div>
+            기대값 계산
+        </div>
+        <div class="menu-item" onclick="navigateTo('/checklist')">
+            <div class="menu-icon">
+                <img src="/images/good.png" alt="성옥 아이콘">
+            </div>
+            광산 모음
+        </div>
+        <div class="menu-item menu-item-active">
+            <div class="menu-icon">
+                <img src="/images/dice.png" alt="주사위 아이콘">
+            </div>
+            가챠 시뮬레이터
+        </div>
+    </div>
+
     <div class="container">
         <!-- 상단 버튼 영역 -->
         <div class="header-buttons">
@@ -16,6 +43,24 @@
                 <button class="header-button" onclick="loadUserInfo()">내 정보 불러오기</button>
             </span>
             <button class="header-button" onclick="clearCount()">초기화</button>
+            <button class="header-button" onclick="showHelp()">도움말</button>
+        </div>
+
+        <!-- 도움말 팝업 -->
+        <div id="helpPopup" class="help-popup">
+            <button class="close-help" onclick="closeHelp()">닫기</button>
+            <div class="help-popup-content">
+                <h3></h3>
+                <div id="helpContent">
+                    <br>
+                    왼쪽 이미지를 눌러 픽업 캐릭터/광추를 선택하세요.<br>
+                    로그인 시 [내 정보 불러오기] 버튼으로 스택을 불러올 수 있습니다.<br>
+                    [초기화] 버튼을 눌러 스택을 초기화할 수 있습니다.<br>
+                    캐릭터 확률 : 0.6% (74뽑 부터 6%씩 증가하여 90뽑 시 100%)<br>
+                    광추 확률 : 0.6% (76뽑 부터 7%씩 증가하여 80뽑 시 100%)<br>
+                    10연차 내에 4성 캐릭터/광추가 무조건 포함됩니다.<br>
+                </div>
+            </div>
         </div>
 
         <!-- 카운터 표시 -->
@@ -114,6 +159,6 @@
     </div>
 </div>
 
-<script src="/js/simulator.js"></script>
+<script src="/js/myjs.js"></script>
 </body>
 </html>
