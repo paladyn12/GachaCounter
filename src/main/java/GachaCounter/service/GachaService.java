@@ -44,7 +44,7 @@ public class GachaService {
     public Character gacha_character(CharacterSimulateRequest request) {
         Random random = new Random();
         double randomDouble = random.nextDouble();
-        double adj = adjstPrbbl(request.getCharacterCount());
+        double adj = adjstPrbbl_Character(request.getCharacterCount());
 
         // 5성 획득
         if (randomDouble < 0.006 + adj) {
@@ -64,7 +64,7 @@ public class GachaService {
     public Character gachaFOUR_character(CharacterSimulateRequest request) { //gachaFOUR도 수정
         Random random = new Random();
         double randomDouble = random.nextDouble();
-        double adj = adjstPrbbl(request.getCharacterCount());
+        double adj = adjstPrbbl_Character(request.getCharacterCount());
 
         // 5성 획득
         if (randomDouble < 0.006 + adj) {
@@ -95,11 +95,6 @@ public class GachaService {
         }
     }
 
-    private double adjstPrbbl(int count) {
-        if (count <= 73) return 0.0;
-        else return Math.min((count - 73) * 0.06, 1.0); // 6%씩 증가, 최대 100% 제한
-    }
-
     public LightCone[] simulateLightCone(LightConeSimulateRequest request) {
 
         int test_case = 10;
@@ -122,7 +117,7 @@ public class GachaService {
     public LightCone gacha_lightCone(LightConeSimulateRequest request) {
         Random random = new Random();
         double randomDouble = random.nextDouble();
-        double adj = adjstPrbbl(request.getLightConeCount());
+        double adj = adjstPrbbl_LightCone(request.getLightConeCount());
 
         // 5성 획득
         if (randomDouble < 0.006 + adj) {
@@ -142,7 +137,7 @@ public class GachaService {
     public LightCone gachaFOUR_lightCone(LightConeSimulateRequest request) { //gachaFOUR도 수정
         Random random = new Random();
         double randomDouble = random.nextDouble();
-        double adj = adjstPrbbl(request.getLightConeCount());
+        double adj = adjstPrbbl_LightCone(request.getLightConeCount());
 
         // 5성 획득
         if (randomDouble < 0.006 + adj) {
@@ -171,5 +166,16 @@ public class GachaService {
             request.setLightConeCount(0);
             return lightConeRepository.findRandomFiveStarLightCone();
         }
+    }
+
+
+    private double adjstPrbbl_Character(int count) {
+        if (count <= 73) return 0.0;
+        else return Math.min((count - 73) * 0.06, 1.0); // 6%씩 증가, 최대 100% 제한
+    }
+
+    private double adjstPrbbl_LightCone(int count) {
+        if (count <= 65) return 0.0;
+        else return Math.min((count - 65) * 0.07, 1.0); // 6%씩 증가, 최대 100% 제한
     }
 }
