@@ -270,3 +270,87 @@ document.addEventListener('click', function(event) {
         menuPopup.style.display = 'none';
     }
 });
+function showContent(categoryId) {
+    // 모든 버튼에서 active 클래스 제거
+    document.querySelectorAll('.category-button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // 클릭된 카테고리의 버튼에 active 클래스 추가
+    event.target.classList.add('active');
+
+    // 모든 컨텐츠 숨기기
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // 선택된 카테고리의 컨텐츠 표시
+    document.getElementById(categoryId).classList.add('active');
+}
+
+const descriptions = {
+    chest: {
+        description: "각 맵에 숨겨진 상자들을 찾아 성옥 획득 가능\n" +
+            "일반 : 5 성옥, 풍부한 : 5 성옥, 귀중한 : 30성옥, 통 or 저금통 : 20 성옥\n" +
+            "지도 사이트 : https://star-rail-map.appsample.com"
+    },
+    credit: {
+        description: "야릴로, 나부, 페나코니에서 획득 가능한 실드, 순촉, 금시계 크레딧을 각 지역에서 성옥 교환\n" +
+            "페나코니 지역의 종이새를 찾아 성옥 획득 가능\n" +
+            "실드 : 총 300 성옥\n" +
+            "순촉 : 총 600 성옥\n" +
+            "금시계 크레딧 : 총 800 성옥\n" +
+            "종이새 : 총 330 성옥"
+    },
+    simulated: {
+        description: "시뮬레이션 우주 첫 클리어 (각 세계 별 300 성옥) 및 도감작 보상 (축복, 기물, 사건 별 30 성옥)\n" +
+            "추가로 각 컨텐츠 별 컨텐츠 보상 존재\n" +
+            "곤충 떼 재난 : 4500 성옥\n" +
+            "황금과 기계 : 4000 성옥\n" +
+            "인지 불가 영역 : 3500성옥"
+    },
+    differential: {
+        description: "차분화 우주 적합레벨 및 도감작 보상 으로 3000 성옥 이상 획득"
+    },
+    grizzly: {
+        description: "망각의 정원 야릴로 지역 1-15단계 클리어 보상 3000 성옥"
+    },
+    nabu: {
+        description: "망각의 정원 나부 지역 1-6단계 클리어 보상 1200 성옥"
+    },
+    levelup: {
+        description: "레벨업 시 티켓 or 100 성옥"
+    },
+    quest: {
+        description: "메인 및 서브 퀘스트 클리어를 통해 최대 60 성옥"
+    },
+    achievement: {
+        description: "업적별로 5-20 성옥"
+    },
+    message: {
+        description: "캐릭터로부터 온 메세지 수신 시 5 성옥"
+    },
+    visit: {
+        description: "열차에 방문한 캐릭터와 대화 시 10 성옥"
+    },
+    tutorial: {
+        description: "튜토리얼 각 목록마다 1 성옥"
+    }
+};
+
+function showDescription(id) {
+    const popup = document.getElementById('descriptionPopup');
+    const content = descriptions[id];
+
+    const description = content.description.replace(
+        /(https?:\/\/[^\s]+)/g,
+        '<a href="$1" target="_blank">$1</a>'
+    );
+    document.getElementById('popupDescription').innerHTML = description;
+
+    popup.style.display = 'flex';
+}
+
+function closeDescription() {
+    document.getElementById('descriptionPopup').style.display = 'none';
+}

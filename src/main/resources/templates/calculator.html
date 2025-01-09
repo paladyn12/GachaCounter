@@ -35,6 +35,22 @@
             가챠 시뮬레이터
         </div>
     </div>
+    <div class="container">
+        <div th:if="${isLoggedIn}">
+            <p>로그인 상태입니다.</p>
+            <p>캐릭터 개수: <span th:text="${characterCount}"></span></p>
+            <p>캐릭터 최대 보유 여부: <span th:text="${characterIsFull}"></span></p>
+            <p>광추 개수: <span th:text="${lightConeCount}"></span></p>
+            <p>광추 최대 보유 여부: <span th:text="${lightConeIsFull}"></span></p>
+        </div>
+        <div th:unless="${isLoggedIn}">
+            <p>로그인하지 않은 상태입니다.</p>
+            <p>캐릭터 개수: <span>0</span></p>
+            <p>캐릭터 최대 보유 여부: <span>false</span></p>
+            <p>광추 개수: <span>0</span></p>
+            <p>광추 최대 보유 여부: <span>false</span></p>
+        </div>
+    </div>
 </div>
 <script src="/js/myjs.js"></script>
 </body>
