@@ -36,20 +36,26 @@
         </div>
     </div>
     <div class="container">
-        <div th:if="${isLoggedIn}">
-            <p>로그인 상태입니다.</p>
-            <p>캐릭터 개수: <span th:text="${characterCount}"></span></p>
-            <p>캐릭터 최대 보유 여부: <span th:text="${characterIsFull}"></span></p>
-            <p>광추 개수: <span th:text="${lightConeCount}"></span></p>
-            <p>광추 최대 보유 여부: <span th:text="${lightConeIsFull}"></span></p>
+        <h2>성옥 및 티켓 입력</h2>
+        <div class="input-group">
+            <div class="input-label">
+                <img src="/images/good.png" alt="성옥"> <span>성옥 수량</span>
+            </div>
+            <input type="number" id="sungok" value="0">
         </div>
-        <div th:unless="${isLoggedIn}">
-            <p>로그인하지 않은 상태입니다.</p>
-            <p>캐릭터 개수: <span>0</span></p>
-            <p>캐릭터 최대 보유 여부: <span>false</span></p>
-            <p>광추 개수: <span>0</span></p>
-            <p>광추 최대 보유 여부: <span>false</span></p>
+        <div class="input-group">
+            <div class="input-label">
+                <img src="/images/ticket.png" alt="티켓"> <span>티켓 수량</span>
+            </div>
+            <input type="number" id="ticket" value="0">
         </div>
+
+        <h2>목표 입력</h2>
+        <div id="targets">
+            <button onclick="addTarget()">+</button>
+        </div>
+
+        <button onclick="submitData()">제출</button>
     </div>
 </div>
 <script src="/js/myjs.js"></script>

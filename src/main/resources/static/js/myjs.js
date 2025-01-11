@@ -297,20 +297,21 @@ const descriptions = {
     credit: {
         description: "야릴로, 나부, 페나코니에서 획득 가능한 실드, 순촉, 금시계 크레딧을 각 지역에서 성옥 교환\n" +
             "페나코니 지역의 종이새를 찾아 성옥 획득 가능\n" +
-            "실드 : 총 300 성옥\n" +
-            "순촉 : 총 600 성옥\n" +
-            "금시계 크레딧 : 총 800 성옥\n" +
-            "종이새 : 총 330 성옥"
+            "실드 : 총 300 성옥 https://flatsun.tistory.com/3809\n" +
+            "순촉 : 총 600 성옥 https://flatsun.tistory.com/3823\n" +
+            "금시계 크레딧 : 총 800 성옥 https://flatsun2.com/27494\n" +
+            "종이새 : 총 330 성옥 (지도 사이트에서 확인 가능)"
     },
     simulated: {
         description: "시뮬레이션 우주 첫 클리어 (각 세계 별 300 성옥) 및 도감작 보상 (축복, 기물, 사건 별 30 성옥)\n" +
             "추가로 각 컨텐츠 별 컨텐츠 보상 존재\n" +
-            "곤충 떼 재난 : 4500 성옥\n" +
-            "황금과 기계 : 4000 성옥\n" +
-            "인지 불가 영역 : 3500성옥"
+            "곤충 떼 재난 : 4500 성옥 https://www.hoyolab.com/article/21450152\n" +
+            "황금과 기계 : 4000 성옥 https://www.hoyolab.com/article/24017422\n" +
+            "인지 불가 영역 : 3500성옥 https://www.hoyolab.com/article/34558366"
     },
     differential: {
-        description: "차분화 우주 적합레벨 및 도감작 보상 으로 3000 성옥 이상 획득"
+        description: "차분화 우주 적합 레벨 및 도감작 보상 으로 3000 성옥 이상 획득\n" +
+            "공략글 : https://www.hoyolab.com/article/30102658"
     },
     grizzly: {
         description: "망각의 정원 야릴로 지역 1-15단계 클리어 보상 3000 성옥"
@@ -319,7 +320,7 @@ const descriptions = {
         description: "망각의 정원 나부 지역 1-6단계 클리어 보상 1200 성옥"
     },
     levelup: {
-        description: "레벨업 시 티켓 or 100 성옥"
+        description: "특정 레벨 달성 시 100 성옥"
     },
     quest: {
         description: "메인 및 서브 퀘스트 클리어를 통해 최대 60 성옥"
@@ -335,6 +336,31 @@ const descriptions = {
     },
     tutorial: {
         description: "튜토리얼 각 목록마다 1 성옥"
+    },
+    event: {
+        description: "버전 별 이벤트 참여\n" +
+            "픽업 캐릭터 체험 20 성옥"
+    },
+    gift: {
+        description: "사용 가능한 리딤 코드 입력 시 최대 300 성옥\n" +
+            "리딤 코드 모음 사이트 : https://arca.live/b/hkstarrail/72618649"
+    },
+    exchange: {
+        description: "매월 1일 초기화되는 잔화 교환 티켓 구매\n" +
+            "상점 - 잔화교환 - 별의 궤도 전용티켓 * 5, 별의 궤도 티켓 * 5"
+    },
+    chaos: {
+        description: "격주로 초기화되는 컨텐츠\n" +
+            "컨텐츠 별 올 클리어 시 800 성옥"
+    },
+    weekly: {
+        description: "매주 시뮬레이션 우주 점수 보상 225 성옥"
+    },
+    daily: {
+        description: "매일 활약도 500 달성 시 60 성옥"
+    },
+    pass: {
+        description: "열차 보급 허가증 구매 시 300 성옥 + 매일 90 성옥"
     }
 };
 
@@ -353,4 +379,79 @@ function showDescription(id) {
 
 function closeDescription() {
     document.getElementById('descriptionPopup').style.display = 'none';
+}
+
+let targetCount = 0;
+
+function addTarget() {
+    targetCount++;
+    const targetsDiv = document.getElementById('targets');
+    const targetItem = document.createElement('div');
+    targetItem.className = 'target-item';
+    targetItem.id = `target-${targetCount}`;
+
+    targetItem.innerHTML = `
+    <label>캐릭터:</label>
+    <select id="char-${targetCount}">
+      <option value="X">X</option>
+      <option value="명함">명함</option>
+      <option value="1돌">1돌</option>
+      <option value="2돌">2돌</option>
+    </select>
+    <label>광추:</label>
+    <select id="lightcone-${targetCount}">
+        <option value="X">X</option>
+        <option value="명함">명함</option>
+        <option value="1재">1재</option>
+        <option value="2재">2재</option>
+    </select>
+    <button onclick="removeTarget(${targetCount})">-</button>
+    <button onclick="addTarget()">+</button>
+  `;
+    targetsDiv.appendChild(targetItem);
+}
+
+function removeTarget(id) {
+    const targetItem = document.getElementById(`target-${id}`);
+    targetItem.remove();
+}
+
+function submitData() {
+    const sungok = document.getElementById('sungok').value;
+    const ticket = document.getElementById('ticket').value;
+    const targets = [];
+
+    for (let i = 1; i <= targetCount; i++) {
+        const char = document.getElementById(`char-${i}`);
+        const lightcone = document.getElementById(`lightcone-${i}`);
+        if (char && lightcone) { // Check if elements exist
+            targets.push({
+                char: char.value,
+                lightcone: lightcone.value
+            });
+        }
+    }
+
+    const data = {
+        sungok: sungok,
+        ticket: ticket,
+        targets: targets
+    };
+
+    fetch('/calculator/calculate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json()) // 서버에서 JSON 응답을 기대하는 경우
+        .then(data => {
+            console.log('성공:', data);
+            // 서버 응답 처리
+        })
+        .catch((error) => {
+            console.error('실패:', error);
+            // 오류 처리
+        });
 }

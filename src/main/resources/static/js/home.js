@@ -25,19 +25,19 @@ function showPopup() {
     popup.style.borderRadius = '8px';
     popup.innerHTML = `
             <form id="popupForm" onsubmit="submitPopup(event)">
-                <p>캐릭터 개수:</p>
+                <p>캐릭터 스택</p>
                 <input type="number" id="characterCount" required>
-                <p>광추 개수:</p>
-                <input type="number" id="lightConeCount" required>
-                <p>캐릭터 꽉참:</p>
+                <p>캐릭터 천장</p>
                 <select id="characterIsFull">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
+                    <option value="false">X</option>
+                    <option value="true">O</option>
                 </select>
-                <p>광추 꽉참:</p>
+                <p>광추 스택</p>
+                <input type="number" id="lightConeCount" required>
+                <p>광추 천장</p>
                 <select id="lightConeIsFull">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
+                    <option value="false">X</option>
+                    <option value="true">O</option>
                 </select>
                 <br><br>
                 <button type="submit">제출</button>

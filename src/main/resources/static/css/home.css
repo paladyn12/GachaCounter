@@ -3,11 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-body {
-    font-family: sans-serif;
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../font/Dongle-Bold.ttf') format('truetype');
 }
-
+body {
+    font-family: 'CustomFont', sans-serif;
+}
 .container {
     width: 100%;
     height: 100vh;
@@ -17,6 +19,8 @@ body {
 }
 
 .counter {
+    font: normal normal 400 20px/1.5 'CustomFont', sans-serif;
+    font-size: 20px;
     position: absolute;
     top: 40%;
     left: 50%;
@@ -24,7 +28,6 @@ body {
     background: white;
     padding: 8px 15px;
     border-radius: 5px;
-    font-size: 0.9rem;
 }
 
 .card-container {
@@ -38,6 +41,7 @@ body {
 }
 
 .card {
+    font: normal normal 400 20px/1.5 'CustomFont', sans-serif;
     width: 160px;
     height: 120px;
     background: white;
@@ -58,7 +62,7 @@ body {
 .card p {
     text-align: center;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 20px;
 }
 
 footer {

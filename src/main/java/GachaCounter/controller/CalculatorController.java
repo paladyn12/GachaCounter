@@ -1,13 +1,20 @@
 package GachaCounter.controller;
 
 import GachaCounter.config.PrincipalDetails;
+import GachaCounter.domain.dto.CalculateRequest;
 import GachaCounter.domain.entity.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/calculator")
@@ -31,4 +38,12 @@ public class CalculatorController {
         }
         return "calculator";
     }
+
+    @PostMapping("/calculate")
+    public ResponseEntity<?> calculate(@RequestBody CalculateRequest request) {
+        Map<String, Object> response = new HashMap<>();
+
+        return ResponseEntity.ok(response);
+    }
+
 }
