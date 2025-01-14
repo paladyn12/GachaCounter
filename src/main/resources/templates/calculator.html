@@ -36,26 +36,64 @@
         </div>
     </div>
     <div class="container">
-        <h2>성옥 및 티켓 입력</h2>
-        <div class="input-group">
-            <div class="input-label">
-                <img src="/images/good.png" alt="성옥"> <span>성옥 수량</span>
-            </div>
-            <input type="number" id="sungok" value="0">
-        </div>
-        <div class="input-group">
-            <div class="input-label">
-                <img src="/images/ticket.png" alt="티켓"> <span>티켓 수량</span>
-            </div>
-            <input type="number" id="ticket" value="0">
+        <!-- 상단 버튼 영역 -->
+        <div class="header-buttons">
+            <button class="header-button" onclick="showHelp()">도움말</button>
         </div>
 
-        <h2>목표 입력</h2>
-        <div id="targets">
-            <button onclick="addTarget()">+</button>
+        <!-- 도움말 팝업 -->
+        <div id="helpPopup" class="help-popup">
+            <button class="close-help" onclick="closeHelp()">닫기</button>
+            <div class="help-popup-content">
+                <h3></h3>
+                <div id="helpContent">
+                    현재 성옥 수량과 티켓 수량을 입력하세요.<br>
+                    목표 아이템을 입력하세요.<br>
+                    (ex. 명전을 뽑는 경우 캐릭터 : 명함, 광추 : 명함)<br>
+                    (ex. 명함만 뽑는 경우 캐릭터 : 명함, 광추 : X)<br>
+                    여러 캐릭터를 뽑는 경우 [+버튼]을 눌러 추가로 입력하세요.<br>
+                    계산 버튼을 누르면 10만번의 시뮬레이션을 돌려 기대값을 반환합니다.<br>
+                    기대값 이상의 재화가 있더라도 뽑지 못할 수 있습니다...
+                </div>
+            </div>
         </div>
 
-        <button onclick="submitData()">제출</button>
+        <div class="counter-display-container">
+            <div class="counter-display" id="counter-display">
+                캐릭터 : <span id="characterCount" th:text="${characterCount != null ? characterCount : 0}">0</span>
+                (천장 <span id="characterIsFull" th:text="${characterIsFull != null ? (characterIsFull ? 'O' : 'X') : 'X'}">X</span>)<br>
+                광추 : <span id="lightConeCount" th:text="${lightConeCount != null ? lightConeCount : 0}">0</span>
+                (천장 <span id="lightConeIsFull" th:text="${lightConeIsFull != null ? (lightConeIsFull ? 'O' : 'X') : 'X'}">X</span>)
+            </div>
+        </div>
+
+        <div class="form-layout">
+            <div class="input-section">
+                <h2>성옥 및 티켓 입력</h2>
+                <div class="input-group">
+                    <div class="input-label">
+                        <img src="/images/good.png" alt="성옥"> <span>성옥</span>
+                    </div>
+                    <input type="number" id="sungok" value="0">
+                </div>
+                <div class="input-group">
+                    <div class="input-label">
+                        <img src="/images/ticket.png" alt="티켓"> <span>티켓</span>
+                    </div>
+                    <input type="number" id="ticket" value="0">
+                </div>
+            </div>
+
+            <div class="target-section">
+                <h2>목표</h2>
+                <div id="targets"></div>
+
+            </div>
+
+            <div class="submit-section">
+                <button class="submit-btn" onclick="calculate()">계산</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="/js/myjs.js"></script>

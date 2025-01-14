@@ -176,6 +176,6 @@ public class GachaService {
 
     private double adjstPrbbl_LightCone(int count) {
         if (count <= 65) return 0.0;
-        else return Math.min((count - 65) * 0.07, 1.0); // 6%씩 증가, 최대 100% 제한
+        else return Math.min((count - 65) * 0.07, 1.0); // 7%씩 증가, 최대 100% 제한
     }
 }

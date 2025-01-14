@@ -40,7 +40,7 @@ function showPopup() {
                     <option value="true">O</option>
                 </select>
                 <br><br>
-                <button type="submit">제출</button>
+                <button type="submit">저장</button>
                 <button type="button" onclick="closePopup()">취소</button>
             </form>
         `;

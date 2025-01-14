@@ -391,23 +391,34 @@ function addTarget() {
     targetItem.id = `target-${targetCount}`;
 
     targetItem.innerHTML = `
-    <label>캐릭터:</label>
-    <select id="char-${targetCount}">
-      <option value="X">X</option>
-      <option value="명함">명함</option>
-      <option value="1돌">1돌</option>
-      <option value="2돌">2돌</option>
-    </select>
-    <label>광추:</label>
-    <select id="lightcone-${targetCount}">
-        <option value="X">X</option>
-        <option value="명함">명함</option>
-        <option value="1재">1재</option>
-        <option value="2재">2재</option>
-    </select>
-    <button onclick="removeTarget(${targetCount})">-</button>
-    <button onclick="addTarget()">+</button>
-  `;
+        <div>
+            <label>캐릭터:</label>
+            <select id="char-${targetCount}">
+                <option value="X">X</option>
+                <option value="명함">명함</option>
+                <option value="1돌">1돌</option>
+                <option value="2돌">2돌</option>
+                <option value="3돌">3돌</option>
+                <option value="4돌">4돌</option>
+                <option value="5돌">5돌</option>
+                <option value="6돌">6돌</option>
+            </select>
+        </div>
+        <div>
+            <label>광추:</label>
+            <select id="lightcone-${targetCount}">
+                <option value="X">X</option>
+                <option value="명함">명함</option>
+                <option value="1재">1재</option>
+                <option value="2재">2재</option>
+                <option value="3재">3재</option>
+                <option value="4재">4재</option>
+                <option value="5재">5재</option>
+            </select>
+        </div>
+        <button class="remove-btn" onclick="removeTarget(${targetCount})">-</button>
+        <button class="add-btn" onclick="addTarget()">+</button>
+    `;
     targetsDiv.appendChild(targetItem);
 }
 
@@ -416,18 +427,29 @@ function removeTarget(id) {
     targetItem.remove();
 }
 
-function submitData() {
-    const sungok = document.getElementById('sungok').value;
-    const ticket = document.getElementById('ticket').value;
+// 초기 목표 입력 버튼 추가
+window.onload = function() {
+    addTarget();
+}
+
+function calculate() {
+    const sungok = parseInt(document.getElementById('sungok').value);
+    const ticket = parseInt(document.getElementById('ticket').value);
+    const characterCount = parseInt(document.getElementById('characterCount').textContent);
+    const characterIsFull = document.getElementById("characterIsFull").textContent === "O";
+    const lightConeCount = parseInt(document.getElementById('lightConeCount').textContent);
+    const lightConeIsFull = document.getElementById("lightConeIsFull").textContent === "O";
     const targets = [];
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
     for (let i = 1; i <= targetCount; i++) {
-        const char = document.getElementById(`char-${i}`);
-        const lightcone = document.getElementById(`lightcone-${i}`);
-        if (char && lightcone) { // Check if elements exist
+        const character = document.getElementById(`char-${i}`);
+        const lightCone = document.getElementById(`lightcone-${i}`);
+        if (character && lightCone) { // Check if elements exist
             targets.push({
-                char: char.value,
-                lightcone: lightcone.value
+                character: character.value,
+                lightCone: lightCone.value
             });
         }
     }
@@ -435,23 +457,54 @@ function submitData() {
     const data = {
         sungok: sungok,
         ticket: ticket,
-        targets: targets
+        targets: targets,
+        characterCount: characterCount,
+        characterIsFull: characterIsFull,
+        lightConeCount: lightConeCount,
+        lightConeIsFull: lightConeIsFull
     };
 
     fetch('/calculator/calculate', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [csrfHeader]: csrfToken
         },
         body: JSON.stringify(data)
     })
         .then(response => response.json()) // 서버에서 JSON 응답을 기대하는 경우
         .then(data => {
             console.log('성공:', data);
+            displayResult(data.result, data.isPossible, data.diffSungok);
             // 서버 응답 처리
         })
         .catch((error) => {
             console.error('실패:', error);
             // 오류 처리
         });
+}
+function displayResult(result, isPossible, diffSungok) {
+    const resultContainer = document.getElementById('result-container');
+    const resultValue = document.getElementById('result-value');
+    const resultStatus = document.getElementById('result-status');
+
+    // 결과값 표시
+    resultValue.textContent = result;
+
+    // 상태 메시지 설정
+    if (isPossible) {
+        resultStatus.textContent = `기대값 대비 ${diffSungok}개 남습니다.`;
+        resultStatus.className = 'result-status success';
+    } else {
+        resultStatus.textContent = `기대값 대비 ${Math.abs(diffSungok)}개 부족합니다.`;
+        resultStatus.className = 'result-status warning';
+    }
+
+    // 결과 컨테이너 표시
+    resultContainer.style.display = 'block';
+}
+
+// 서버에서 응답을 받은 후 호출하는 예시
+function handleCalculationResponse(response) {
+    displayResult(response.result, response.isPossible, response.diffSungok);
 }
