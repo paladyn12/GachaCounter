@@ -485,26 +485,40 @@ function calculate() {
 }
 function displayResult(result, isPossible, diffSungok) {
     const resultContainer = document.getElementById('result-container');
-    const resultValue = document.getElementById('result-value');
     const resultStatus = document.getElementById('result-status');
+    const resultImage = document.getElementById('result-image'); // 이미지 요소 가져오기
 
-    // 결과값 표시
-    resultValue.textContent = result;
-
-    // 상태 메시지 설정
     if (isPossible) {
-        resultStatus.textContent = `기대값 대비 ${diffSungok}개 남습니다.`;
+        resultStatus.textContent = `기대값 대비 ${diffSungok}성옥 남습니다.`;
         resultStatus.className = 'result-status success';
+        resultImage.src = 'images/possible.png'; // 이미지 경로 설정
+        resultImage.alt = '가능'; // alt 텍스트 설정
     } else {
-        resultStatus.textContent = `기대값 대비 ${Math.abs(diffSungok)}개 부족합니다.`;
+        resultStatus.innerHTML = `
+    <p>기대값 대비 ${Math.abs(diffSungok)}성옥 부족합니다.</p>
+    <p>초회 기준 ${Math.abs(diffSungok)} 성옥은 대략 ${price(Math.abs(diffSungok))}원 입니다.</p>
+`;
         resultStatus.className = 'result-status warning';
+        resultImage.src = 'images/impossible.png'; // 이미지 경로 설정
+        resultImage.alt = '불가능'; // alt 텍스트 설정
     }
 
-    // 결과 컨테이너 표시
     resultContainer.style.display = 'block';
 }
 
 // 서버에서 응답을 받은 후 호출하는 예시
 function handleCalculationResponse(response) {
     displayResult(response.result, response.isPossible, response.diffSungok);
+}
+function price(diffSungok) {
+    const calculatedPrice = diffSungok * 19; // 입력값에 19를 곱합니다.
+
+    // 숫자를 1,000 단위로 쉼표를 추가하는 함수
+    function formatNumberWithCommas(number) {
+        return number.toLocaleString();
+    }
+
+    const formattedPrice = formatNumberWithCommas(calculatedPrice); // 쉼표 추가
+
+    return formattedPrice; // 포맷된 가격 반환
 }
