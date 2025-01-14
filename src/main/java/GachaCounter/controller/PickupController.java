@@ -8,6 +8,7 @@ import GachaCounter.repository.CharacterRepository;
 import GachaCounter.repository.LightConeRepository;
 import GachaCounter.repository.PickupRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/pickup")
 @RequiredArgsConstructor
+@Slf4j
 public class PickupController {
 
     private final PickupRepository pickupRepository;
@@ -42,11 +44,13 @@ public class PickupController {
         ArrayList<LightCone> lightConeList = (ArrayList<LightCone>) pickup.getPickupLightCones();
         String[] split = characters.split(",");
         for (String s : split) {
+            log.info(s);
             Character character = characterRepository.getReferenceById(characterRepository.findByName(s).get().getId());
             characterList.add(character);
         }
         split = lightCones.split(",");
         for (String s : split) {
+            log.info(s);
             LightCone lightCone = lightConeRepository.getReferenceById(lightConeRepository.findByName(s).get().getId());
             lightConeList.add(lightCone);
         }
