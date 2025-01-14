@@ -24,7 +24,6 @@ public class GachaService {
 
     public Character[] simulateCharacter(CharacterSimulateRequest request) {
 
-        int test_case = 10;
         boolean isFOUR = false;
         Character[] result = new Character[10];
 
@@ -84,10 +83,10 @@ public class GachaService {
             request.setCharacterCount(0);
             request.setCharacterIsFull(false);
             return pickupCharacter.orElse(null);
-        } else if (random.nextDouble() < 0.5) {
-            Optional<Character> alwaysCharacter = characterRepository.findByName(request.getImageName());
+        } else if (random.nextDouble() < 0.56) {
+            Optional<Character> pickupCharacter = characterRepository.findByName(request.getImageName());
             request.setCharacterCount(0);
-            return alwaysCharacter.orElse(null);
+            return pickupCharacter.orElse(null);
         } else {
             request.setCharacterIsFull(true);
             request.setCharacterCount(0);
@@ -97,7 +96,6 @@ public class GachaService {
 
     public LightCone[] simulateLightCone(LightConeSimulateRequest request) {
 
-        int test_case = 10;
         boolean isFOUR = false;
         LightCone[] result = new LightCone[10];
 

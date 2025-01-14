@@ -24,26 +24,31 @@ function showPopup() {
     popup.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
     popup.style.borderRadius = '8px';
     popup.innerHTML = `
-            <form id="popupForm" onsubmit="submitPopup(event)">
+    <form id="popupForm" onsubmit="submitPopup(event)">
+        <div style="display: flex; align-items: start; gap: 20px;">
+            <div>
                 <p>캐릭터 스택</p>
                 <input type="number" id="characterCount" required>
-                <p>캐릭터 천장</p>
-                <select id="characterIsFull">
-                    <option value="false">X</option>
-                    <option value="true">O</option>
-                </select>
                 <p>광추 스택</p>
                 <input type="number" id="lightConeCount" required>
-                <p>광추 천장</p>
-                <select id="lightConeIsFull">
-                    <option value="false">X</option>
-                    <option value="true">O</option>
-                </select>
-                <br><br>
-                <button type="submit">저장</button>
-                <button type="button" onclick="closePopup()">취소</button>
-            </form>
-        `;
+            </div>
+            <div style="margin-top: 4px;">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <input type="checkbox" id="characterIsFull">
+                    <label for="characterIsFull">천장</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-top: 45px;">
+                    <input type="checkbox" id="lightConeIsFull">
+                    <label for="lightConeIsFull">천장</label>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <button type="submit">저장</button>
+            <button type="button" onclick="closePopup()">취소</button>
+        </div>
+    </form>
+`;
 
     document.body.appendChild(popup);
 }
@@ -61,8 +66,11 @@ function submitPopup(event) {
 
     const characterCount = document.getElementById('characterCount').value;
     const lightConeCount = document.getElementById('lightConeCount').value;
-    const characterIsFull = document.getElementById('characterIsFull').value;
-    const lightConeIsFull = document.getElementById('lightConeIsFull').value;
+    document.getElementById('characterIsFull').value = false;
+    document.getElementById('lightConeIsFull').value = false;
+
+    const characterIsFull = document.getElementById('characterIsFull').checked;
+    const lightConeIsFull = document.getElementById('lightConeIsFull').checked;
 
     fetch('/counter/set', {
         method: 'POST',

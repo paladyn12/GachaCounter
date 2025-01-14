@@ -22,7 +22,7 @@ body {
     font: normal normal 400 20px/1.5 'CustomFont', sans-serif;
     font-size: 20px;
     position: absolute;
-    top: 40%;
+    top: 65%;
     left: 50%;
     transform: translateX(-50%);
     background: white;
