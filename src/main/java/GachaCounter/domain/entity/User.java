@@ -21,6 +21,8 @@ public class User {
     private String username;
     private String password; // OAuth2로 로그인 구현하여 의미 없음
 
+    private String role;
+
     private int characterCount;
     private int lightConeCount;
     private boolean characterIsFull;

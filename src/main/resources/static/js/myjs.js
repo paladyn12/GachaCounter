@@ -30,6 +30,15 @@ function loadUserInfo() {
             document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
             document.getElementById('lightConeCount').textContent = data.lightConeCount;
             document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+
+            const gachaContainerC = document.querySelector('.gacha-container-character');
+            if (gachaContainerC) {
+                gachaContainerC.innerHTML = ''; // 컨테이너 내용 전체 비우기
+            }
+            const gachaContainerL = document.querySelector('.gacha-container-lightCone');
+            if (gachaContainerL) {
+                gachaContainerL.innerHTML = ''; // 컨테이너 내용 전체 비우기
+            }
         })
         .catch(error => console.error('Error loading user info:', error));
 }
@@ -42,6 +51,15 @@ function clearCount() {
             document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
             document.getElementById('lightConeCount').textContent = data.lightConeCount;
             document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+
+            const gachaContainerC = document.querySelector('.gacha-container-character');
+            if (gachaContainerC) {
+                gachaContainerC.innerHTML = ''; // 컨테이너 내용 전체 비우기
+            }
+            const gachaContainerL = document.querySelector('.gacha-container-lightCone');
+            if (gachaContainerL) {
+                gachaContainerL.innerHTML = ''; // 컨테이너 내용 전체 비우기
+            }
         })
         .catch(error => console.error('Error loading user info:', error));
 }
@@ -98,8 +116,8 @@ function simulateCharacter() {
                                 const img = document.createElement('img');
                                 img.src = item.imagePath;
                                 img.alt = `Item ${i + 1}`;
-                                img.style.maxWidth = '100%';
-                                img.style.maxHeight = '100%';
+                                img.style.maxWidth = '80%';
+                                img.style.maxHeight = '80%';
                                 img.style.objectFit = 'cover';
 
                                 switch (item.star) {
@@ -128,6 +146,36 @@ function simulateCharacter() {
                     }
                 } else {
                     console.error("데이터 또는 grid-item 개수가 일치하지 않습니다.");
+                }
+                // fiveItems 처리 로직
+                const gachaContainer = document.querySelector('.gacha-container-character');
+                const fiveItems = data.fiveItems;
+                if (fiveItems) {
+
+                    // fiveItems 배열에서 null이 아닌 항목만 처리
+                    fiveItems.forEach(item => {
+                        if (item) {
+                            const gachaItem = document.createElement('div');
+                            gachaItem.className = 'gacha-item';
+
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'img-container';
+
+                            const img = document.createElement('img');
+                            img.src = item.imagePath;
+                            img.alt = 'Character';
+
+                            const countDiv = document.createElement('div');
+                            countDiv.className = 'count';
+                            countDiv.textContent = item.count;
+
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(countDiv);
+                            gachaItem.appendChild(imgContainer);
+
+                            gachaContainer.insertBefore(gachaItem, gachaContainer.firstChild);
+                        }
+                    });
                 }
             })
             .catch(error => {
@@ -188,8 +236,8 @@ function simulateLightCone() {
                                 const img = document.createElement('img');
                                 img.src = item.imagePath;
                                 img.alt = `Item ${i + 1}`;
-                                img.style.maxWidth = '100%';
-                                img.style.maxHeight = '100%';
+                                img.style.maxWidth = '80%';
+                                img.style.maxHeight = '80%';
                                 img.style.objectFit = 'cover';
 
                                 switch (item.star) {
@@ -218,6 +266,36 @@ function simulateLightCone() {
                     }
                 } else {
                     console.error("데이터 또는 grid-item 개수가 일치하지 않습니다.");
+                }
+                // fiveItems 처리 로직
+                const gachaContainer = document.querySelector('.gacha-container-lightCone');
+                const fiveItems = data.fiveItems;
+                if (fiveItems) {
+
+                    // fiveItems 배열에서 null이 아닌 항목만 처리
+                    fiveItems.forEach(item => {
+                        if (item) {
+                            const gachaItem = document.createElement('div');
+                            gachaItem.className = 'gacha-item';
+
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'img-container';
+
+                            const img = document.createElement('img');
+                            img.src = item.imagePath;
+                            img.alt = 'LightCone';
+
+                            const countDiv = document.createElement('div');
+                            countDiv.className = 'count';
+                            countDiv.textContent = item.count;
+
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(countDiv);
+                            gachaItem.appendChild(imgContainer);
+
+                            gachaContainer.insertBefore(gachaItem, gachaContainer.firstChild);
+                        }
+                    });
                 }
             })
             .catch(error => {

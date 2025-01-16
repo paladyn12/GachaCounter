@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pickup 관리</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<h1>Pickup 관리 페이지</h1>
+
+<h2>Pickup 생성</h2>
+<form id="createForm">
+    <label for="startDate">시작일:</label>
+    <input type="date" id="startDate" name="startDate"/><br/>
+    <label for="characters">캐릭터:</label>
+    <input type="text" id="characters" name="characters"/><br/>
+    <label for="lightCones">광추:</label>
+    <input type="text" id="lightCones" name="lightCones"/><br/>
+    <button type="button" onclick="createPickup()">생성</button>
+</form>
+
+<h2>Pickup 삭제</h2>
+<form id="deleteForm">
+    <label for="deleteStartDate">시작일:</label>
+    <input type="date" id="deleteStartDate" name="deleteStartDate"/><br/>
+    <button type="button" onclick="deletePickup()">삭제</button>
+</form>
+
+<script th:inline="javascript">
+    function createPickup() {
+        const startDate = document.getElementById('startDate').value;
+        const characters = document.getElementById('characters').value;
+        const lightCones = document.getElementById('lightCones').value;
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        fetch('/pickup/create?startDate=' + startDate + '&characters=' + characters + '&lightCones=' + lightCones, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader]: csrfToken
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("생성 성공");
+                    location.reload();
+                } else {
+                    alert("생성 실패");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    function deletePickup() {
+        const startDate = document.getElementById('deleteStartDate').value;
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        fetch('/pickup/delete?startDate=' + startDate + '&characters=', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader]: csrfToken
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("삭제 성공");
+                    location.reload();
+                } else {
+                    response.text().then(errorMessage => {
+                        alert("삭제 실패: " + errorMessage);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+</body>
+</html>

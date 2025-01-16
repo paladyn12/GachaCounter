@@ -33,9 +33,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 .getRegistrationId(); //google kakao facebook...
         String provideId = oauth2User.getAttribute("sub");
         String email = oauth2User.getAttribute("email");
+        String role = checkAdmin(email) ? "ROLE_ADMIN" : "ROLE_USER";
         String username = oauth2User.getAttribute("name");
         String password = "OAuth2"; //Oauth2로 로그인을 해서 패스워드는 의미없음.
-        String role = "ROLE_USER";
 
         Optional<User> user = userRepository.findByEmail(email);
 
@@ -46,6 +46,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .email(email)
                     .username(username)
                     .password(password)
+                    .role(role)
                     .characterCount(0)
                     .lightConeCount(0)
                     .characterIsFull(false)
@@ -60,5 +61,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else {
             return new PrincipalDetails(user.get(), oauth2User.getAttributes());
         }
+    }
+    private boolean checkAdmin(String email) {
+        return email.equals("paladyn65@gmail.com");
     }
 }

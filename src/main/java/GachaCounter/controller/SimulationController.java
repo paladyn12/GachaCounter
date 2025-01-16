@@ -1,9 +1,11 @@
 package GachaCounter.controller;
 
 import GachaCounter.config.PrincipalDetails;
+import GachaCounter.domain.Star;
 import GachaCounter.domain.dto.CharacterSimulateRequest;
 import GachaCounter.domain.dto.LightConeSimulateRequest;
 import GachaCounter.domain.dto.SimulateResponse;
+import GachaCounter.domain.dto.TrackerResponse;
 import GachaCounter.domain.entity.Character;
 import GachaCounter.domain.entity.LightCone;
 import GachaCounter.domain.entity.Pickup;
@@ -53,7 +55,7 @@ public class SimulationController {
             model.addAttribute("isLoggedIn", false);
         }
 
-        Optional<Pickup> pickupOpt = pickupRepository.findEarliestPickup();
+        Optional<Pickup> pickupOpt = pickupRepository.findFirstByOrderByStartDateAsc();
         if (!pickupOpt.isEmpty()){
             Pickup pickup = pickupOpt.get();
             log.info("start date = {}", pickup.getStartDate().toString());
@@ -104,6 +106,7 @@ public class SimulationController {
     @ResponseBody
     public ResponseEntity<?> simulateCharacter(@RequestBody CharacterSimulateRequest request) {
         log.info("Received request: {}", request); // 로그 추가
+        int firstStack = request.getCharacterCount();
 
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
         name = name.replace(".webp", "");
@@ -112,10 +115,16 @@ public class SimulationController {
 
         Character[] characters = gachaService.simulateCharacter(request);
         SimulateResponse[] items = new SimulateResponse[10];
+        TrackerResponse[] fiveItems = new TrackerResponse[10];
         for (int i = 0; i < 10; i++) {
+            firstStack++;
             if (characters[i] != null) {
                 items[i] = new SimulateResponse(characters[i]);
                 log.info("나온 캐릭터={}", items[i].getName());
+                if (characters[i].getStar().equals(Star.FIVE)) {
+                    fiveItems[i] = new TrackerResponse(items[i].getImagePath(), firstStack);
+                    firstStack = 0;
+                }
             } else {
                 log.info("3성");
                 items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
@@ -127,6 +136,7 @@ public class SimulationController {
         response.put("characterCount", request.getCharacterCount());
         response.put("characterIsFull", request.isCharacterIsFull());
         response.put("items", items);
+        response.put("fiveItems", fiveItems);
 
         return ResponseEntity.ok(response);
     }
@@ -134,6 +144,7 @@ public class SimulationController {
     @PostMapping("/simulateLightCone")
     @ResponseBody
     public ResponseEntity<?> simulateLightCone(@RequestBody LightConeSimulateRequest request) {
+        int firstStack = request.getLightConeCount();
         log.info("Received request: {}", request); // 로그 추가
 
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
@@ -143,10 +154,16 @@ public class SimulationController {
 
         LightCone[] lightCones = gachaService.simulateLightCone(request);
         SimulateResponse[] items = new SimulateResponse[10];
+        TrackerResponse[] fiveItems = new TrackerResponse[10];
         for (int i = 0; i < 10; i++) {
+            firstStack++;
             if (lightCones[i] != null) {
                 items[i] = new SimulateResponse(lightCones[i]);
                 log.info("나온 캐릭터={}", items[i].getName());
+                if (lightCones[i].getStar().equals(Star.FIVE)) {
+                    fiveItems[i] = new TrackerResponse(items[i].getImagePath(), firstStack);
+                    firstStack = 0;
+                }
             } else {
                 log.info("3성");
                 items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
@@ -158,6 +175,7 @@ public class SimulationController {
         response.put("lightConeCount", request.getLightConeCount());
         response.put("lightConeIsFull", request.isLightConeIsFull());
         response.put("items", items);
+        response.put("fiveItems", fiveItems);
 
         return ResponseEntity.ok(response);
     }

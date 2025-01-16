@@ -40,7 +40,7 @@
         <!-- 상단 버튼 영역 -->
         <div class="header-buttons">
             <span th:if="${isLoggedIn}">
-                <button class="header-button" onclick="loadUserInfo()">내 정보 불러오기</button>
+                <button class="header-button" onclick="loadUserInfo()">내 스택 불러오기</button>
             </span>
             <button class="header-button" onclick="clearCount()">초기화</button>
             <button class="header-button" onclick="showHelp()">도움말</button>
@@ -56,6 +56,7 @@
                     캐릭터 5성 확률 : 0.6% (74뽑 부터 6%씩 증가하여 90뽑 시 100%)<br>
                     광추 5성 확률 : 0.6% (76뽑 부터 7%씩 증가하여 80뽑 시 100%)<br>
                     픽뚫 확률 : 캐릭터 44%, 광추 25%<br>
+                    5성 획득 시 스택과 함께 기록됩니다.<br>
                     10연차 내에 4성 캐릭터/광추가 무조건 포함됩니다.<br>
                     로그인 시 [내 정보 불러오기] 버튼으로 스택을 불러올 수 있습니다.<br>
                     [초기화] 버튼을 눌러 스택을 초기화할 수 있습니다.<br>
@@ -87,18 +88,6 @@
                 </div>
             </div>
 
-            <div id="character-scroll" class="scroll-container">
-                <div>항목 1</div>
-                <div>항목 2</div>
-                <div>항목 3</div>
-                <div>항목 4</div>
-                <div>항목 5</div>
-                <div>항목 6</div>
-                <div>항목 7</div>
-                <div>항목 8</div>
-                <div>항목 9</div>
-                <div>항목 10</div>
-            </div>
             <div class="grid-container">
                 <div class="grid-item-character"></div>
                 <div class="grid-item-character"></div>
@@ -113,8 +102,12 @@
             </div>
             <button class="action-button" onclick="simulateCharacter()">10연차</button>
         </div>
+        <div class="gacha-container-character">
+            <div class="gacha-item">
 
-        <!-- 캐릭터 선택 영역 -->
+            </div>
+        </div>
+        <!-- 광추 선택 영역 -->
         <div class="selection-area">
             <button class="toggle-button" onclick="toggleLightConeImage()">
                 <img id="lightCone-image" src="/images/lightCone/lightCone_thumbnail.png" alt="캐릭 선택" class="toggle-button-image">
@@ -130,18 +123,6 @@
                 </div>
             </div>
 
-            <div id="lightCone-scroll" class="scroll-container">
-                <div>항목 1</div>
-                <div>항목 2</div>
-                <div>항목 3</div>
-                <div>항목 4</div>
-                <div>항목 5</div>
-                <div>항목 6</div>
-                <div>항목 7</div>
-                <div>항목 8</div>
-                <div>항목 9</div>
-                <div>항목 10</div>
-            </div>
             <div class="grid-container">
                 <div class="grid-item-lightCone"></div>
                 <div class="grid-item-lightCone"></div>
@@ -156,7 +137,13 @@
             </div>
             <button class="action-button" onclick="simulateLightCone()">10연차</button>
         </div>
+        <div class="gacha-container-lightCone">
+            <div class="gacha-item">
+
+            </div>
+        </div>
     </div>
+
 </div>
 
 <script src="/js/myjs.js"></script>

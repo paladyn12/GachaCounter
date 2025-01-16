@@ -23,9 +23,19 @@ public class Pickup {
     private Date startDate;
     private Date endDate;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "pickup_pickup_characters", // 중간 테이블 이름 명시
+            joinColumns = @JoinColumn(name = "pickup_id"), // Pickup 엔티티의 ID 컬럼
+            inverseJoinColumns = @JoinColumn(name = "character_id") // Character 엔티티의 ID 컬럼
+    )
     private List<Character> pickupCharacters = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "pickup_pickup_light_cones", // 중간 테이블 이름 명시
+            joinColumns = @JoinColumn(name = "pickup_id"), // Pickup 엔티티의 ID 컬럼
+            inverseJoinColumns = @JoinColumn(name = "light_cone_id") // LightCone 엔티티의 ID 컬럼
+    )
     private List<LightCone> pickupLightCones = new ArrayList<>();
 }

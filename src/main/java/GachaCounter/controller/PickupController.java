@@ -11,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pickup")
@@ -28,6 +30,7 @@ public class PickupController {
     private final CharacterRepository characterRepository;
     private final LightConeRepository lightConeRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public Pickup createPickup(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                String characters,
@@ -40,18 +43,22 @@ public class PickupController {
         pickup.setStartDate(startDate);
         pickup.setEndDate(endDate);
 
-        ArrayList<Character> characterList = (ArrayList<Character>) pickup.getPickupCharacters();
-        ArrayList<LightCone> lightConeList = (ArrayList<LightCone>) pickup.getPickupLightCones();
-        String[] split = characters.split(",");
-        for (String s : split) {
-            log.info(s);
-            Character character = characterRepository.getReferenceById(characterRepository.findByName(s).get().getId());
+        List<Character> characterList = new ArrayList<>();
+        List<LightCone> lightConeList = new ArrayList<>();
+
+        String[] splitCharacters = characters.split(",");
+        for (String characterName : splitCharacters) {
+            log.info(characterName);
+            Character character = characterRepository.findByName(characterName)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found: " + characterName));
             characterList.add(character);
         }
-        split = lightCones.split(",");
-        for (String s : split) {
-            log.info(s);
-            LightCone lightCone = lightConeRepository.getReferenceById(lightConeRepository.findByName(s).get().getId());
+
+        String[] splitLightCones = lightCones.split(",");
+        for (String lightConeName : splitLightCones) {
+            log.info(lightConeName);
+            LightCone lightCone = lightConeRepository.findByName(lightConeName)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LightCone not found: " + lightConeName));
             lightConeList.add(lightCone);
         }
 
@@ -59,6 +66,16 @@ public class PickupController {
         pickup.setPickupLightCones(lightConeList);
 
         return pickupRepository.save(pickup);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deletePickup(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate) {
+
+        List<Pickup> pickupsToDelete = pickupRepository.findByStartDate(startDate);
+
+        pickupRepository.deleteAll(pickupsToDelete);
+        return new ResponseEntity<>("Pickup(s) deleted successfully.", HttpStatus.OK);
     }
 
     private Date getEndDate(Date startDate) {

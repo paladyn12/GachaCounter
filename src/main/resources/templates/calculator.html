@@ -38,6 +38,10 @@
     <div class="container">
         <!-- 상단 버튼 영역 -->
         <div class="header-buttons">
+            <span th:if="${isLoggedIn}">
+                <button class="header-button" onclick="loadUserInfo()">내 스택 불러오기</button>
+            </span>
+            <button class="header-button" onclick="clearCount()">초기화</button>
             <button class="header-button" onclick="showHelp()">도움말</button>
         </div>
 
