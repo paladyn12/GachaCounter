@@ -644,22 +644,27 @@ button:hover {
 }
 
 .gacha-container-character {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 10px;
     padding: 10px;
 }
 .gacha-container-lightCone {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 10px;
     padding: 10px;
 }
 
 .gacha-item {
-    flex: 0 0 auto;
-    margin-right: 10px;
-    border-radius: 3px;
+    display: inline-block;  /* 인라인 블록으로 표시 */
+    flex-shrink: 0;  /* 아이템이 줄어들지 않도록 설정 */
 }
 
 .img-container {

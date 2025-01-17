@@ -390,26 +390,24 @@ const descriptions = {
     },
     differential: {
         description: "차분화 우주 적합 레벨 및 도감작 보상으로 3000 성옥 이상 획득\n" +
-            "공략글 : https://www.hoyolab.com/article/30102658"
+            "차분화 우주 : https://www.hoyolab.com/article/30102658"
     },
     grizzly: {
         description: "망각의 정원 야릴로 지역 1-15단계 클리어 보상 3000 성옥\n" +
-            "망각의 정원이란 https://www.hoyolab.com/article/18068376"
+            "망각의 정원 : https://www.hoyolab.com/article/18068376"
     },
     nabu: {
         description: "망각의 정원 나부 지역 1-6단계 클리어 보상 1200 성옥\n" +
-            "망각의 정원이란? https://www.hoyolab.com/article/18068376"
+            "망각의 정원 : https://www.hoyolab.com/article/18068376"
     },
     levelup: {
-        description: "특정 레벨 달성 시 100 성옥\n" +
-            "레벨 별 보상 https://honkai-star-rail.fandom.com/wiki/Trailblaze_Level"
+        description: "레벨 별 보상 https://honkai-star-rail.fandom.com/wiki/Trailblaze_Level"
     },
     quest: {
         description: "메인 및 서브 퀘스트 클리어를 통해 최대 60 성옥"
     },
     achievement: {
-        description: "업적별로 5-20 성옥\n" +
-            "깨기 쉬운 업적은 해당 사이트에서 확인 https://starrailstation.com/kr/achievements"
+        description: "깨기 쉬운 업적은 해당 사이트에서 확인 https://starrailstation.com/kr/achievements"
     },
     message: {
         description: "캐릭터로부터 온 메세지 수신 시 5 성옥"
@@ -424,11 +422,10 @@ const descriptions = {
         description: "버전 마다 시작되는 이벤트 참여\n" +
             "(버전 별 이벤트 정리 https://namu.wiki/w/붕괴:%20스타레일/이벤트/3.n%20버전#s-3)\n" +
             "픽업 캐릭터 체험 20 성옥\n" +
-            "매 버전 새로 출시하는 무명의 공훈 패스 구매 시 성옥, 일정 레벨마다 전용티켓 획득"
+            "매 버전 새로 출시하는 무명의 공훈 패스 구매 시 성옥 및 일정 레벨마다 전용티켓 획득"
     },
     gift: {
-        description: "사용 가능한 리딤 코드 입력 시 최대 300 성옥\n" +
-            "리딤 코드 모음 사이트 : https://arca.live/b/hkstarrail/72618649"
+        description: "리딤 코드 모음 사이트 : https://arca.live/b/hkstarrail/72618649"
     },
     exchange: {
         description: "매월 1일 초기화되는 잔화 교환 티켓 구매\n" +
@@ -520,7 +517,19 @@ function removeTarget(id) {
 // 초기 목표 입력 버튼 추가
 window.onload = function() {
     addTarget();
+    updateRemoveButtons();
 }
+
+function updateRemoveButtons() {
+    const targetItems = document.getElementsByClassName('target-item');
+    const removeButtons = document.getElementsByClassName('remove-btn');
+
+    // 버튼이 1개일 때는 모든 삭제 버튼을 숨김
+    for (let btn of removeButtons) {
+        btn.style.display = targetItems.length === 1 ? 'none' : 'inline-block';
+    }
+}
+
 
 function calculate() {
     const sungok = parseInt(document.getElementById('sungok').value);

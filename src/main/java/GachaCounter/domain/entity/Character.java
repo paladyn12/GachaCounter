@@ -15,6 +15,7 @@ public class Character {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true)
     String name;
     @Enumerated(EnumType.STRING)
     Star star;

@@ -75,7 +75,6 @@ public class CalculatorService {
                 }
 
             }
-            System.out.println(count);
             sum += count;
         }
         return (int) Math.round(sum/100000);
@@ -111,7 +110,6 @@ public class CalculatorService {
                 }
 
             }
-            System.out.println(count);
             sum += count;
         }
         return (int) Math.round(sum/100000);

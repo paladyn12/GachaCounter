@@ -12,6 +12,7 @@ import java.util.List;
 
 @Entity
 @RequiredArgsConstructor
+@Table(name = "pickups")
 @Getter
 @Setter
 public class Pickup {

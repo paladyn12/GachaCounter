@@ -1,5 +1,5 @@
 INSERT INTO characters (name, star, path, element, special, image_path) VALUES
-                                                                             ('클라라', 'FIVE', '파멸', '물리', 'ALWAYS', '/images/character/FIVE/클라라.webp'),
+                                                                            ('클라라', 'FIVE', '파멸', '물리', 'ALWAYS', '/images/character/FIVE/클라라.webp'),
                                                                              ('나타샤', 'FOUR', '풍요', '물리', 'ALWAYS', '/images/character/FOUR/나타샤.webp'),
                                                                              ('소상', 'FOUR', '수렵', '물리', 'ALWAYS', '/images/character/FOUR/소상.webp'),
                                                                              ('루카', 'FOUR', '공허', '물리', 'ALWAYS', '/images/character/FOUR/루카.webp'),
@@ -58,7 +58,9 @@ INSERT INTO characters (name, star, path, element, special, image_path) VALUES
                                                                              ('Dr_레이시오', 'FIVE', '수렵', '허수', 'SPECIAL', '/images/character/FIVE/Dr_레이시오.webp'),
                                                                              ('어벤츄린', 'FIVE', '보존', '허수', 'SPECIAL', '/images/character/FIVE/어벤츄린.webp'),
                                                                              ('라파', 'FIVE', '지식', '허수', 'SPECIAL', '/images/character/FIVE/라파.webp'),
-                                                                             ('선데이', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/FIVE/선데이.webp');
+                                                                             ('선데이', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/FIVE/선데이.webp'),
+                                                                            ('썸네일', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/character_thumbnail.png')
+    ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), element = VALUES(element), special = VALUES(special), image_path = VALUES(image_path);
 INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('대체할 수 없는 것', 'FIVE', '파멸', 'ALWAYS', '/images/lightCone/FIVE/대체할 수 없는 것.png'),
                                                                      ('닿을 수 없는 저편', 'FIVE', '파멸', 'SPECIAL', '/images/lightCone/FIVE/닿을 수 없는 저편.png'),
@@ -145,4 +147,5 @@ INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('꿈의 몽타주', 'FOUR', '풍요', 'ALWAYS', '/images/lightCone/FOUR/꿈의 몽타주.png'),
                                                                      ('풍작', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/풍작.png'),
                                                                      ('알찬 열매', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/알찬 열매.png'),
-                                                                     ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png');
+                                                                     ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png')
+    ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), special = VALUES(special), image_path = VALUES(image_path);

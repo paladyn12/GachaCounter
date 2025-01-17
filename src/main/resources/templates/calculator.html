@@ -41,7 +41,9 @@
             <span th:if="${isLoggedIn}">
                 <button class="header-button" onclick="loadUserInfo()">내 스택 불러오기</button>
             </span>
-            <button class="header-button" onclick="clearCount()">초기화</button>
+            <span th:if="${isLoggedIn}">
+                <button class="header-button" onclick="clearCount()">초기화</button>
+            </span>
             <button class="header-button" onclick="showHelp()">도움말</button>
         </div>
 
@@ -52,11 +54,11 @@
                 <h3></h3>
                 <div id="helpContent">
                     현재 성옥 수량과 티켓 수량을 입력하세요.<br>
-                    목표 아이템을 입력하세요.<br>
+                    가챠 목표를 입력하세요.<br>
                     (ex. 명전을 뽑는 경우 캐릭터 : 명함, 광추 : 명함)<br>
                     (ex. 명함만 뽑는 경우 캐릭터 : 명함, 광추 : X)<br>
-                    여러 캐릭터를 뽑는 경우 [+버튼]을 눌러 추가로 입력하세요.<br>
-                    계산 버튼을 누르면 10만번의 시뮬레이션을 돌려 기대값을 반환합니다.<br>
+                    여러 캐릭터를 뽑는 경우 [+]버튼을 눌러 추가로 입력하세요.<br>
+                    계산 버튼을 누르면 스택에 기반하여 10만번의 시뮬레이션을 돌려 기대값을 반환합니다.<br>
                     기대값 이상의 재화가 있더라도 뽑지 못할 수 있습니다...
                 </div>
             </div>

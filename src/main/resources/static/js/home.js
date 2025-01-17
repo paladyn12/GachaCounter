@@ -27,9 +27,9 @@ function showPopup() {
     <form id="popupForm" onsubmit="submitPopup(event)">
         <div style="display: flex; align-items: start; gap: 20px;">
             <div>
-                <p>캐릭터 스택</p>
+                <p>캐릭터 스택 (0-89)</p>
                 <input type="number" id="characterCount" required>
-                <p>광추 스택</p>
+                <p>광추 스택 (0-79)</p>
                 <input type="number" id="lightConeCount" required>
             </div>
             <div style="margin-top: 4px;">
