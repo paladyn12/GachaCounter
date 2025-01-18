@@ -68,3 +68,7 @@ tasks.named('test') {
 		showStandardStreams = true
 	}
 }
+tasks.withType(Copy) {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE // 중복 파일 처리 전략
+	filteringCharset = 'UTF-8' // 필터링 시 문자 집합
+}
