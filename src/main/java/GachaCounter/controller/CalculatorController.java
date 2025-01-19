@@ -49,23 +49,9 @@ public class CalculatorController {
     @PostMapping("/calculate")
     public ResponseEntity<?> calculate(@RequestBody CalculateRequest request) {
 
-        log.info("성옥 = {}", request.getSungok());
-        log.info("티켓 = {}", request.getTicket());
-        log.info("캐릭터 뽑는 수 = {}", request.getCharacters());
-        log.info("광추 뽑는 수 = {}", request.getLightCones());
-        log.info("캐릭터 스택 = {}", request.getCharacterCount());
-        log.info("캐릭터 천장 = {}", request.isCharacterIsFull());
-        log.info("광추 스택 = {}", request.getLightConeCount());
-        log.info("광추 천장 = {}", request.isLightConeIsFull());
-
         int result = calculatorService.calculate(request);
-        log.info("기대값={}", result);
         int sungok = request.getSungok();
         sungok += request.getTicket()*160;
-
-        log.info("계산된 성옥 값 = {}", sungok);
-        log.info("뽑을만 하냐 = {}", sungok >= result*160);
-        log.info("성옥 차이 = {}", sungok - result*160);
 
         Map<String, Object> response = new HashMap<>();
         response.put("result", result);

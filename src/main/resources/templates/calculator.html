@@ -42,12 +42,12 @@
     </div>
     <div class="container">
         <!-- 상단 버튼 영역 -->
-        <div class="header-buttons">
+        <div class="header-buttons-cal">
             <span th:if="${isLoggedIn}">
-                <button class="header-button" onclick="loadUserInfo()">내 스택 불러오기</button>
+                <button class="header-button" onclick="loadUserStack_cal()">현재 스택에서 계산</button>
             </span>
             <span th:if="${isLoggedIn}">
-                <button class="header-button" onclick="clearCount()">초기화</button>
+                <button class="header-button" onclick="clearStack_cal()">처음부터 계산</button>
             </span>
             <button class="header-button" onclick="showHelp()">도움말</button>
         </div>
