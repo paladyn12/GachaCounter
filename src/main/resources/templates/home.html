@@ -5,6 +5,7 @@
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <head>
     <meta charset="UTF-8">
+    <title>가챠 카운터</title>
     <script data-name="BMC-Widget"
             data-cfasync="false"
             src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
@@ -52,7 +53,7 @@
         <span th:if="${isLoggedIn}">
             <div class="card" onclick="showPopup()">
                 <img th:src="@{/images/option.png}" alt="스택 설정">
-                <p>개수 설정</p>
+                <p>스택 설정</p>
             </div>
         </span>
         <span th:if="${!isLoggedIn}">
