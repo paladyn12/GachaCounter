@@ -38,7 +38,6 @@ public class SimulationController {
 
     @GetMapping
     public String simulatorPage(Model model) {
-        log.info("시뮬레이터 페이지");
 
         int characterCount = 0;
         int lightConeCount = 0;
@@ -58,17 +57,9 @@ public class SimulationController {
         Optional<Pickup> pickupOpt = pickupRepository.findFirstByOrderByStartDateAsc();
         if (!pickupOpt.isEmpty()){
             Pickup pickup = pickupOpt.get();
-            log.info("start date = {}", pickup.getStartDate().toString());
 
             List<Character> pickupCharacters = pickup.getPickupCharacters();
-            for (Character pickupCharacter : pickupCharacters) {
-                log.info(pickupCharacter.getName());
-            }
-
             List<LightCone> pickupLightCones = pickup.getPickupLightCones();
-            for (LightCone pickupLightCone : pickupLightCones) {
-                log.info(pickupLightCone.getName());
-            }
 
             model.addAttribute("pickupCharacters", pickupCharacters);
             model.addAttribute("pickupLightCones", pickupLightCones);
@@ -105,12 +96,10 @@ public class SimulationController {
     @PostMapping("/simulateCharacter")
     @ResponseBody
     public ResponseEntity<?> simulateCharacter(@RequestBody CharacterSimulateRequest request) {
-        log.info("Received request: {}", request); // 로그 추가
         int firstStack = request.getCharacterCount();
 
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
         name = name.replace(".webp", "");
-        log.info("name={}", name);
         request.setImageName(name);
 
         Character[] characters = gachaService.simulateCharacter(request);
@@ -120,18 +109,14 @@ public class SimulationController {
             firstStack++;
             if (characters[i] != null) {
                 items[i] = new SimulateResponse(characters[i]);
-                log.info("나온 캐릭터={}", items[i].getName());
                 if (characters[i].getStar().equals(Star.FIVE)) {
                     fiveItems[i] = new TrackerResponse(items[i].getImagePath(), firstStack);
                     firstStack = 0;
                 }
             } else {
-                log.info("3성");
                 items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
-                log.info("나온 캐릭터={}", items[i].getName());
             }
         }
-        log.info("{}", request.getCharacterCount());
         Map<String, Object> response = new HashMap<>();
         response.put("characterCount", request.getCharacterCount());
         response.put("characterIsFull", request.isCharacterIsFull());
@@ -145,11 +130,9 @@ public class SimulationController {
     @ResponseBody
     public ResponseEntity<?> simulateLightCone(@RequestBody LightConeSimulateRequest request) {
         int firstStack = request.getLightConeCount();
-        log.info("Received request: {}", request); // 로그 추가
 
         String name = URLDecoder.decode(request.getImageName(), StandardCharsets.UTF_8);
         name = name.replace(".png", "");
-        log.info("name={}", name);
         request.setImageName(name);
 
         LightCone[] lightCones = gachaService.simulateLightCone(request);
@@ -159,18 +142,14 @@ public class SimulationController {
             firstStack++;
             if (lightCones[i] != null) {
                 items[i] = new SimulateResponse(lightCones[i]);
-                log.info("나온 캐릭터={}", items[i].getName());
                 if (lightCones[i].getStar().equals(Star.FIVE)) {
                     fiveItems[i] = new TrackerResponse(items[i].getImagePath(), firstStack);
                     firstStack = 0;
                 }
             } else {
-                log.info("3성");
                 items[i] = new SimulateResponse(lightConeRepository.findRandomThreeStarLightCone());
-                log.info("나온 캐릭터={}", items[i].getName());
             }
         }
-        log.info("{}", request.getLightConeCount());
         Map<String, Object> response = new HashMap<>();
         response.put("lightConeCount", request.getLightConeCount());
         response.put("lightConeIsFull", request.isLightConeIsFull());

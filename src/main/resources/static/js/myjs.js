@@ -1,3 +1,29 @@
+function loadUserStack_cal() {
+    // AJAX 요청
+    fetch('/simulator/userinfo')  // 서버에 요청 보낼 URL
+        .then(response => response.json())
+        .then(data => {
+            // 데이터를 받아온 후 DOM 업데이트
+            document.getElementById('characterCount').textContent = data.characterCount;
+            document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
+            document.getElementById('lightConeCount').textContent = data.lightConeCount;
+            document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+        })
+        .catch(error => console.error('Error loading user info:', error));
+}
+function clearStack_cal() {
+    fetch('/simulator/clearCount')  // 서버에 요청 보낼 URL
+        .then(response => response.json())
+        .then(data => {
+            // 데이터를 받아온 후 DOM 업데이트
+            document.getElementById('characterCount').textContent = data.characterCount;
+            document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
+            document.getElementById('lightConeCount').textContent = data.lightConeCount;
+            document.getElementById('lightConeIsFull').textContent = data.lightConeIsFull ? 'O' : 'X';
+        })
+        .catch(error => console.error('Error loading user info:', error));
+
+}
 function toggleCharacterImage() {
     const popup = document.getElementById('characterPopup');
     popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
@@ -20,12 +46,13 @@ function selectLightCone(selectedImage) {
     document.getElementById('lightConePopup').style.display = 'none';
 }
 
-function loadUserInfo() {
+function loadUserStack_sim() {
     // AJAX 요청
     fetch('/simulator/userinfo')  // 서버에 요청 보낼 URL
         .then(response => response.json())
         .then(data => {
             // 데이터를 받아온 후 DOM 업데이트
+            resetStackCount();
             document.getElementById('characterCount').textContent = data.characterCount;
             document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
             document.getElementById('lightConeCount').textContent = data.lightConeCount;
@@ -42,11 +69,13 @@ function loadUserInfo() {
         })
         .catch(error => console.error('Error loading user info:', error));
 }
-function clearCount() {
+function clearStack_sim() {
     fetch('/simulator/clearCount')  // 서버에 요청 보낼 URL
         .then(response => response.json())
         .then(data => {
             // 데이터를 받아온 후 DOM 업데이트
+
+            resetStackCount();
             document.getElementById('characterCount').textContent = data.characterCount;
             document.getElementById('characterIsFull').textContent = data.characterIsFull ? 'O' : 'X';
             document.getElementById('lightConeCount').textContent = data.lightConeCount;
@@ -62,6 +91,18 @@ function clearCount() {
             }
         })
         .catch(error => console.error('Error loading user info:', error));
+}
+function updateStackCount(delta) { // delta 매개변수를 사용하여 증가/감소 기능 통합
+    const stackCountElement = document.getElementById('stack-count');
+    let currentCount = parseInt(stackCountElement.textContent) || 0; // parseInt 결과가 NaN이면 0으로 설정
+    const newCount = currentCount + delta;
+    stackCountElement.textContent = newCount;
+}
+function increaseStackCount() {
+    updateStackCount(10); // 10 증가
+}
+function resetStackCount() {
+    updateStackCount(-parseInt(document.getElementById('stack-count').textContent)); // 현재 값만큼 감소 (즉, 0으로 초기화)
 }
 
 function simulateCharacter() {
@@ -97,6 +138,7 @@ function simulateCharacter() {
     })
         .then(response => response.json()
             .then(data => {
+                increaseStackCount();
                 document.getElementById("characterCount").textContent = data.characterCount;
                 document.getElementById("characterIsFull").textContent = data.characterIsFull ? "O" : "X";
                 const items = data.items;
@@ -217,6 +259,7 @@ function simulateLightCone() {
     })
         .then(response => response.json()
             .then(data => {
+                increaseStackCount();
                 document.getElementById("lightConeCount").textContent = data.lightConeCount;
                 document.getElementById("lightConeIsFull").textContent = data.lightConeIsFull ? "O" : "X";
                 const items = data.items;

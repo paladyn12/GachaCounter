@@ -43,12 +43,18 @@
 
     <div class="container">
         <!-- 상단 버튼 영역 -->
-        <div class="header-buttons">
-            <span th:if="${isLoggedIn}">
-                <button class="header-button" onclick="loadUserInfo()">내 스택 불러오기</button>
-            </span>
-            <button class="header-button" onclick="clearCount()">초기화</button>
-            <button class="header-button" onclick="showHelp()">도움말</button>
+        <div class="header-content">
+    <span class="left-info">
+        <img src="/images/ticket.png" alt="가챠 횟수">
+        <span id="stack-count">0</span>
+    </span>
+            <div class="header-buttons">
+                <!-- 로그인 여부에 따라 "내 스택 불러오기" 버튼 표시 -->
+                <button class="header-button" th:if="${isLoggedIn}" onclick="loadUserStack_sim()">내 스택 불러오기</button>
+                <!-- 항상 표시되는 버튼 -->
+                <button class="header-button" onclick="clearStack_sim()">초기화</button>
+                <button class="header-button" onclick="showHelp()">도움말</button>
+            </div>
         </div>
 
         <!-- 도움말 팝업 -->

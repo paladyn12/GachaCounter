@@ -29,9 +29,30 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
 }
+.header-content {
+    display: flex; /* 요소들을 가로로 배치 */
+    justify-content: space-between; /* 양 끝으로 요소들을 배치하고 사이에 공간을 둠 */
+    align-items: center; /* 수직 가운데 정렬 */
+    padding: 10px; /* 적절한 패딩 추가 */
+}
+
+.left-info {
+    font: normal normal 400 20px/1.5 'CustomFont', sans-serif;
+    display: flex; /* 이미지와 숫자를 가로로 배치 */
+    align-items: center; /* 이미지와 숫자를 수직 가운데 정렬 */
+    background-color: white;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.left-info img {
+    width: 30px; /* 이미지 크기 조절 */
+    height: 30px; /* 이미지 크기 조절 */
+    margin-right: 5px; /* 이미지와 숫자 사이 간격 */
+}
 
 .header-buttons {
-    text-align: right;
     margin-right: 10px;
     margin-bottom: 20px;
     padding-top: 50px;
@@ -44,6 +65,13 @@ body {
     padding: 8px 16px;
     margin: 0 5px;
     cursor: pointer;
+}
+
+.header-buttons-cal {
+    text-align: right;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding-top: 50px;
 }
 .counter-display-container {
     text-align: right;
