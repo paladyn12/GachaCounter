@@ -56,7 +56,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             userRepository.save(newUser);
-            log.info("user={}", newUser.getUsername());
             return new PrincipalDetails(newUser, oauth2User.getAttributes());
         } else {
             return new PrincipalDetails(user.get(), oauth2User.getAttributes());

@@ -48,7 +48,6 @@ public class PickupController {
 
         String[] splitCharacters = characters.split(",");
         for (String characterName : splitCharacters) {
-            log.info(characterName);
             Character character = characterRepository.findByName(characterName)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found: " + characterName));
             characterList.add(character);
@@ -56,7 +55,6 @@ public class PickupController {
 
         String[] splitLightCones = lightCones.split(",");
         for (String lightConeName : splitLightCones) {
-            log.info(lightConeName);
             LightCone lightCone = lightConeRepository.findByName(lightConeName)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LightCone not found: " + lightConeName));
             lightConeList.add(lightCone);

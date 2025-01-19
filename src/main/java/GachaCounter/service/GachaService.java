@@ -28,7 +28,6 @@ public class GachaService {
         Character[] result = new Character[10];
 
         for (int i = 0; i < 10; i++) {
-            log.info("연산 수행={}", request.getCharacterCount());
             if (i == 9 && !isFOUR) {
                 result[i] = gachaFOUR_character(request);
             } else {
@@ -100,7 +99,6 @@ public class GachaService {
         LightCone[] result = new LightCone[10];
 
         for (int i = 0; i < 10; i++) {
-            log.info("연산 수행={}", request.getLightConeCount());
             if (i == 9 && !isFOUR) {
                 result[i] = gachaFOUR_lightCone(request);
             } else {
