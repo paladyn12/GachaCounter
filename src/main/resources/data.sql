@@ -147,5 +147,6 @@ INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('꿈의 몽타주', 'FOUR', '풍요', 'ALWAYS', '/images/lightCone/FOUR/꿈의 몽타주.png'),
                                                                      ('풍작', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/풍작.png'),
                                                                      ('알찬 열매', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/알찬 열매.png'),
-                                                                     ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png')
+                                                                     ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png'),
+                                                                     ('시간을 황금으로 엮어', 'FIVE', '기억', 'SPECIAL', '/images/lightCone/FIVE/시간을 황금으로 엮어.png')
     ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), special = VALUES(special), image_path = VALUES(image_path);
