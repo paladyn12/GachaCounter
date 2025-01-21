@@ -53,6 +53,8 @@ public class CalculatorController {
         int sungok = request.getSungok();
         sungok += request.getTicket()*160;
 
+        log.info("기대 가챠 횟수 = {}", result);
+
         Map<String, Object> response = new HashMap<>();
         response.put("result", result);
         response.put("isPossible", sungok >= result*160);
