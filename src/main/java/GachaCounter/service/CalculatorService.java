@@ -15,7 +15,7 @@ public class CalculatorService {
             result += calculateCharacter(request);
         if (request.getLightCones() != 0)
             result += calculateLightCone(request);
-        return (int) result;
+        return (int) Math.round(result);
     }
 
     private double calculateCharacter(CalculateRequest request) {
