@@ -653,7 +653,20 @@ function handleCalculationResponse(response) {
     displayResult(response.result, response.isPossible, response.diffSungok);
 }
 function price(diffSungok) {
-    const calculatedPrice = diffSungok * 19; // 입력값에 19를 곱합니다.
+    let calculatedPrice;
+
+    if (diffSungok < 26160) {
+        // 입력값이 26160 미만이면 9.44를 곱함
+        calculatedPrice = diffSungok * 9.445;
+    } else if (diffSungok === 26160) {
+        // 입력값이 26160이면 247,100 반환
+        calculatedPrice = 247100;
+    } else {
+        // 입력값이 26160 초과일 경우
+        calculatedPrice = (diffSungok - 26160) * 14.72 + 247100;
+    }
+
+    calculatedPrice = Math.floor(calculatedPrice);
 
     // 숫자를 1,000 단위로 쉼표를 추가하는 함수
     function formatNumberWithCommas(number) {
