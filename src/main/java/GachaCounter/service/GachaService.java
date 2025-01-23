@@ -153,10 +153,10 @@ public class GachaService {
             request.setLightConeCount(0);
             request.setLightConeIsFull(false);
             return pickupLightCone.orElse(null);
-        } else if (random.nextDouble() < 0.5) {
-            Optional<LightCone> alwaysLightCone = lightConeRepository.findByName(request.getImageName());
+        } else if (random.nextDouble() < 0.78) {
+            Optional<LightCone> pickupLightCone = lightConeRepository.findByName(request.getImageName());
             request.setLightConeCount(0);
-            return alwaysLightCone.orElse(null);
+            return pickupLightCone.orElse(null);
         } else {
             request.setLightConeIsFull(true);
             request.setLightConeCount(0);
