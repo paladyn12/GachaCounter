@@ -59,7 +59,9 @@ INSERT INTO characters (name, star, path, element, special, image_path) VALUES
                                                                              ('어벤츄린', 'FIVE', '보존', '허수', 'SPECIAL', '/images/character/FIVE/어벤츄린.webp'),
                                                                              ('라파', 'FIVE', '지식', '허수', 'SPECIAL', '/images/character/FIVE/라파.webp'),
                                                                              ('선데이', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/FIVE/선데이.webp'),
-                                                                            ('썸네일', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/character_thumbnail.png')
+                                                                            ('썸네일', 'FIVE', '화합', '허수', 'SPECIAL', '/images/character/character_thumbnail.png'),
+                                                                            ('트리비', 'FIVE', '화합', '양자', 'SPECIAL', '/images/character/FIVE/트리비.webp'),
+                                                                            ('마이데이', 'FIVE', '파멸', '허수', 'SPECIAL', '/images/character/FIVE/마이데이.webp')
     ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), element = VALUES(element), special = VALUES(special), image_path = VALUES(image_path);
 INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('대체할 수 없는 것', 'FIVE', '파멸', 'ALWAYS', '/images/lightCone/FIVE/대체할 수 없는 것.png'),
@@ -148,5 +150,7 @@ INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('풍작', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/풍작.png'),
                                                                      ('알찬 열매', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/알찬 열매.png'),
                                                                      ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png'),
-                                                                     ('시간을 황금으로 엮어', 'FIVE', '기억', 'SPECIAL', '/images/lightCone/FIVE/시간을 황금으로 엮어.png')
+                                                                     ('시간을 황금으로 엮어', 'FIVE', '기억', 'SPECIAL', '/images/lightCone/FIVE/시간을 황금으로 엮어.png'),
+                                                                     ('시간이 한 송이 꽃이라면', 'FIVE', '화합', 'SPECIAL', '/images/lightCone/FIVE/시간이 한 송이 꽃이라면.png'),
+                                                                     ('피의 불꽃이여, 앞길을 태워라', 'FIVE', '파멸', 'SPECIAL', '/images/lightCone/FIVE/피의 불꽃이여, 앞길을 태워라.png')
     ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), special = VALUES(special), image_path = VALUES(image_path);
