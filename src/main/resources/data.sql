@@ -79,7 +79,7 @@ INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('전멸', 'THREE', '파멸', 'ALWAYS', '/images/lightCone/THREE/전멸.png'),
                                                                      ('깊게 든 단잠', 'FIVE', '수렵', 'ALWAYS', '/images/lightCone/FIVE/깊게 든 단잠.png'),
                                                                      ('야경 속에서', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/야경 속에서.png'),
-                                                                     ('고민, 그리고 행복', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/고민, 그리고 행복.png'),
+                                                                     ('고민 그리고 행복', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/고민 그리고 행복.png'),
                                                                      ('순수 사유의 세례', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/순수 사유의 세례.png'),
                                                                      ('두 번째 생명을 향해', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/두 번째 생명을 향해.png'),
                                                                      ('정복하고 사냥하리', 'FIVE', '수렵', 'SPECIAL', '/images/lightCone/FIVE/정복하고 사냥하리.png'),
@@ -152,5 +152,5 @@ INSERT INTO lightcones (name, star, path, special, image_path) VALUES
                                                                      ('증식', 'THREE', '풍요', 'ALWAYS', '/images/lightCone/THREE/증식.png'),
                                                                      ('시간을 황금으로 엮어', 'FIVE', '기억', 'SPECIAL', '/images/lightCone/FIVE/시간을 황금으로 엮어.png'),
                                                                      ('시간이 한 송이 꽃이라면', 'FIVE', '화합', 'SPECIAL', '/images/lightCone/FIVE/시간이 한 송이 꽃이라면.png'),
-                                                                     ('피의 불꽃이여, 앞길을 태워라', 'FIVE', '파멸', 'SPECIAL', '/images/lightCone/FIVE/피의 불꽃이여, 앞길을 태워라.png')
+                                                                     ('피의 불꽃이여 앞길을 태워라', 'FIVE', '파멸', 'SPECIAL', '/images/lightCone/FIVE/피의 불꽃이여 앞길을 태워라.png')
     ON DUPLICATE KEY UPDATE star = VALUES(star), path = VALUES(path), special = VALUES(special), image_path = VALUES(image_path);
