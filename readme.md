@@ -1,5 +1,5 @@
-# Gacha Counter (배포 종료)
-가챠 스택 저장 및 기대값 계산 서비스<br/>
+# Gacha Counter
+가챠 스택 저장 및 기대값 계산 서비스 (배포 종료)<br/>
 개발 인원 : 1<br/>
 개발 기간 : 25.01.01~25.01.19<br/>
 # 설명
@@ -31,4 +31,5 @@ www.gachacounter.com<br/>
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/aws EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+
 
