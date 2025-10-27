@@ -1,8 +1,8 @@
 # Gacha Counter
 가챠 스택 저장 및 기대값 계산 서비스 (배포 종료)<br/>
 개발 인원 : 1<br/>
-개발 기간 : 25.01.01~25.01.31 (1개월)<br/>
-운영 기간 : 25.02~25.08<br/>
+개발 기간 : 25.01.01 ~ 25.01.31 (1개월)<br/>
+운영 기간 : 25.02 ~ 25.08<br/>
 # 설명
 붕괴 : 스타 레일의 뽑기 횟수를 저장하여 기대값 계산, 시뮬레이션 등의 기능을 제공하는 웹 애플리케이션<br/>
 # 주요 기능
@@ -32,6 +32,7 @@ www.gachacounter.com<br/>
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/aws EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+
 
 
 
